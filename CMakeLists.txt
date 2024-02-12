@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.28.0)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+include(Format)
+
+project(procpp VERSION 0.0.1 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_subdirectory(namespaces)
+add_subdirectory(types)
+add_subdirectory(limits)
+add_subdirectory(modules)
+add_subdirectory(threeway)
+add_subdirectory(structured_bindings)
+add_subdirectory(consteval)
+add_subdirectory(type_inference)
+add_subdirectory(string_view)
