@@ -10,7 +10,8 @@ int main() {
   borrow_this(move(uptr));
   // delete_this(uptr.get());
 
-  auto sptr{make_shared<int>(0)};
+  // Cpp 20
+  auto sptr{make_shared_for_overwrite<int>()};
   dont_want_this(sptr);
   // can_i_have_it(sptr);
 }
