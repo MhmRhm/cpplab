@@ -51,6 +51,10 @@ decltype(auto) func4(const auto &param1, const auto &param2) {
   return param1 + param2;
 }
 
+template <typename T, size_t N> void stackArrayFunc(T (&arr)[N]) {
+  std::cout << format("{} array[{}]", type_name<T>(), N) << std::endl;
+}
+
 int main() {
   using namespace std;
 
@@ -96,4 +100,11 @@ int main() {
        << endl;
   cout << format("type_name(func4Ret) = {}", type_name<decltype(func4Ret)>())
        << endl;
+
+  int arr[]{0, 1, 2, 3};
+  stackArrayFunc(arr);
+
+  // valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+  // --verbose ./type_inference
+  new int;
 }
