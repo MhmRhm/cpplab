@@ -14,6 +14,8 @@ export struct TLPHeader {
   bool getPaddingSize();
 };
 
+using namespace std;
+
 bool TLPHeader::getPaddingSize() {
   auto extra{Length & 0b11};
   if (extra) {
