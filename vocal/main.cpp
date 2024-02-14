@@ -15,6 +15,7 @@ public:
     std::cout << __PRETTY_FUNCTION__ << std::endl;
     return *this;
   }
+  friend void swap(Inner &lhs, Inner &rhs) {}
 };
 
 class Vocal {
@@ -24,29 +25,24 @@ class Vocal {
 public:
   // If no user-declared constructors of any kind are provided for a class type,
   // the compiler will always declare a default constructor.
-  Vocal(int data) {
-    m_data = data;
+  Vocal(int data) : m_data{data}, m_inner{Inner{}} {
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
   };
 
   // If no user-defined copy constructors are provided for a class type, the
   // compiler will always declare a copy constructor.
-  Vocal(const Vocal &src) {
-    m_data = src.m_data;
-    m_inner = src.m_inner;
+  Vocal(const Vocal &src) : m_data{src.m_data}, m_inner{src.m_inner} {
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
   }
 
   // If no user-defined copy assignment operators are provided for a class type,
   // the compiler will always declare one.
-  Vocal &operator=(const Vocal &src) {
-    if (this == &src)
-      return *this;
+  Vocal &operator=(const Vocal &rhs) {
+    Vocal temp{rhs};
+    swap(*this, temp);
 
-    m_data = src.m_data;
-    m_inner = src.m_inner;
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
 
@@ -61,8 +57,8 @@ public:
   //    there is no user-declared destructor,
   // then the compiler will declare a move constructor.
   Vocal(Vocal &&src) noexcept {
-    m_data = std::move(src.m_data);
-    m_inner = std::move(src.m_inner);
+    swap(*this, src);
+
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
   }
@@ -74,19 +70,22 @@ public:
   //    there are no user-declared copy assignment operators;
   //    there is no user-declared destructor,
   // then the compiler will declare a move assignment operator.
-  Vocal &operator=(Vocal &&src) noexcept {
-    if (this == &src)
-      return *this;
+  Vocal &operator=(Vocal &&rhs) noexcept {
+    swap(*this, rhs);
 
-    m_data = std::move(src.m_data);
-    m_inner = std::move(src.m_inner);
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
 
     return *this;
   }
 
-  ~Vocal() {
+  friend void swap(Vocal &lhs, Vocal &rhs) noexcept {
+    using std::swap;
+    swap(lhs.m_data, rhs.m_data);
+    swap(lhs.m_inner, rhs.m_inner);
+  }
+
+  virtual ~Vocal() {
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_data)
               << std::endl;
   }
