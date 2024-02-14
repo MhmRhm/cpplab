@@ -1,5 +1,6 @@
 #include <format>
 #include <iostream>
+#include <vector>
 
 class Inner {
 public:
@@ -10,7 +11,7 @@ public:
     return *this;
   }
   Inner(Inner &&) noexcept { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  Inner &operator=(Inner &&src) {
+  Inner &operator=(Inner &&src) noexcept {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
     return *this;
   }
@@ -73,7 +74,7 @@ public:
   //    there are no user-declared copy assignment operators;
   //    there is no user-declared destructor,
   // then the compiler will declare a move assignment operator.
-  Vocal &operator=(Vocal &&src) {
+  Vocal &operator=(Vocal &&src) noexcept {
     if (this == &src)
       return *this;
 
@@ -94,5 +95,11 @@ public:
 int main() {
   Vocal v1{1}, v2{2}, v3{3};
   Vocal v12{std::move(v3)};
-  v2 = std::move(v3);
+  // v2 = std::move(v3);
+
+  // std::vector<Vocal> vocals1{};
+  // vocals1.push_back(Vocal{10});
+  // vocals1.push_back(Vocal{20});
+  // vocals1.push_back(Vocal{30});
+  // vocals1.push_back(Vocal{40});
 }
