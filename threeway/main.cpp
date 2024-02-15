@@ -9,10 +9,13 @@ struct History {
   bool mem3{};
   double mem4{};
 
-  // Cpp 17/20
+  // Cpp 20
   // return type can be strong_ordering, partial_ordering or weak_ordering.
   [[nodiscard("must use")]] auto
   operator<=>(const History &other) const = default;
+
+  void method1() & {}
+  void method2() && {}
 };
 
 [[deprecated("use func(int &a, int b) instead")]] void func() {
@@ -47,6 +50,9 @@ int main() {
     ;
   if (h1 >= h2)
     ;
+
+  h1.method1();
+  History{}.method2();
 
   func();
 }
