@@ -9,12 +9,17 @@ struct History {
   bool mem3{};
   double mem4{};
 
+  static const size_t Sum{};
+  // Cpp 17
+  static inline size_t m_total{};
+
   // Cpp 20
   // return type can be strong_ordering, partial_ordering or weak_ordering.
+  // auto if every member supports <=>
   [[nodiscard("must use")]] auto
   operator<=>(const History &other) const = default;
 
-  void method1() & {}
+  void method1() /*const*/ & {}
   void method2() && {}
 };
 
