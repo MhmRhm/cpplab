@@ -96,8 +96,8 @@ int main() {
   cout << (t.*memptr)() << endl;   // 100
   cout << (&t->*memptr)() << endl; // 100
   cout << (t->*memptr)() << endl;  // 1'000
-  
-  cout << t(1, 3) << endl;         // 3
+
+  cout << t(1, 3) << endl; // 3
 
   char mem[sizeof(Type)]{};
   Type *tp{new (&mem) Type{int(0xff'ff'ff'ff)}};
