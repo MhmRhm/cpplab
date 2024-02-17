@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-class Inner {
+class Inner final {
 public:
   Inner() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   Inner(const Inner &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
@@ -80,9 +80,11 @@ public:
     swap(lhs.m_inner, rhs.m_inner);
   }
 
-  virtual ~Vocal() {
+  virtual ~Vocal() /*= default;*/ {
     std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
   }
+
+  virtual void method() final {}
 };
 
 int main() {

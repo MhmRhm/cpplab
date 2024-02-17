@@ -15,7 +15,7 @@ int main() {
   dont_want_this(sptr);
   // can_i_have_it(sptr);
 
-  struct Composit {
+  struct Composit final {
     int attr1{1};
     int attr2{2};
   };
@@ -23,12 +23,12 @@ int main() {
   auto alias{shared_ptr<int>{composit, &composit->attr2}};
   cout << *alias << endl;
 
-  class Good : public std::enable_shared_from_this<Good> {
+  class Good final : public std::enable_shared_from_this<Good> {
   public:
     std::shared_ptr<Good> getptr() { return shared_from_this(); }
   };
 
-  class Best : public std::enable_shared_from_this<Best> {
+  class Best final : public std::enable_shared_from_this<Best> {
     struct Private {};
 
   public:
@@ -39,7 +39,7 @@ int main() {
     std::shared_ptr<Best> getptr() { return shared_from_this(); }
   };
 
-  struct Bad {
+  struct Bad final {
     std::shared_ptr<Bad> getptr() { return std::shared_ptr<Bad>(this); }
   };
 

@@ -63,6 +63,6 @@ int main() {
   int *carr = new int[]{1, 2, 3};
 }
 
-template <typename T> class AnotherClass {
+template <typename T> class AnotherClass final {
   T m_member{};
 };

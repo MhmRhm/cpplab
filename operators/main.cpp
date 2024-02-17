@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-struct Type {
+struct Type final {
   int value{};
   int method() { return 100; }
 

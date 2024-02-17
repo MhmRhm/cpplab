@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-struct History {
+struct History final {
   uint8_t mem1{};
   std::string mem2{};
   bool mem3{};

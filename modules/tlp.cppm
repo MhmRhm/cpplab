@@ -5,7 +5,7 @@ export module tlp;
 
 using namespace std;
 
-export struct TLPHeader {
+export struct TLPHeader final {
   uint32_t HEC : 8;
   uint32_t Length : 8;
   uint32_t HopID : 7;
