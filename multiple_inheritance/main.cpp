@@ -7,23 +7,33 @@ int main() {
   struct Human {
     string name{};
     int age{};
+
+    void getOld() { age += 1; };
   };
-  struct Developer : Human {
+
+  struct Developer : /*virtual*/ Human {
     int experience{};
+
     void work() { cout << "I am fixing a bug." << endl; }
-    void work(size_t bugNumber) {
+    void work(size_t bugNumber) const {
       cout << format("I am fixing item #{}.", bugNumber) << endl;
     }
   };
-  struct Manager : Human {
+  
+  struct Manager : /*virtual*/ Human {
     int personale{};
-    void work() { cout << "I am in a meeting." << endl; }
+
+    void work() const { cout << "I am in a meeting." << endl; }
   };
+  
   struct LeadDeveloper : Developer, Manager {
     using Developer::work;
-    void work(int hours) {
+
+    // hides bases work
+    void work(int hours) const {
       cout << format("Codign and having meetings for {} hours.", hours) << endl;
     }
+
     void show() {
       cout << format("name = {}, age = {}, experience = {}, personale = {}",
                      Developer::name, this->Manager::age, experience, personale)
@@ -33,6 +43,8 @@ int main() {
       work(6UL);
     }
   };
+
   LeadDeveloper leadDev{"Steve Wozniak", 26, 13, "Steve Jobs", 20, 1};
+  // leadDev.getOld();
   leadDev.show();
 }

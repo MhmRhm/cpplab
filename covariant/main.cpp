@@ -4,8 +4,11 @@
 #include <string>
 
 struct Product {
+  int id{};
   virtual ~Product() = default;
-  virtual const char *getName() { return "Product"; }
+
+  static const char *getName() { return "Product"; }
+  virtual void setID(int id = 1000) { this->id = id; };
 };
 
 class Factory {
@@ -17,17 +20,24 @@ public:
   // }
 };
 
+struct Iriz final : Product {
+  ~Iriz() override = default;
+  Iriz &operator=(const Iriz &rhs) {
+    if (&rhs == this) {
+      return *this;
+    }
+    Product::operator=(rhs);
+    return *this;
+  }
+
+  static const char *getName() { return "Iriz"; }
+  virtual void setID(int id = 2021) override { this->id = id; };
+};
+
 class Proton : public Factory {
 public:
   virtual ~Proton() override = default;
 
-  struct Iriz final : Product {
-    ~Iriz() override = default;
-    const char *getName() override {
-      using namespace std::literals;
-      return "Iriz";
-    }
-  };
   Iriz *getProduct() override { return new Iriz{}; }
   // std::unique_ptr<Iriz> getProduct() override {
   //   return std::make_unique<Iriz>();
@@ -36,6 +46,11 @@ public:
 
 int main() {
   using namespace std;
-  unique_ptr<Proton::Iriz> car{Proton{}.getProduct()};
+  unique_ptr<Iriz> car{Proton{}.getProduct()};
   cout << car->getName() << endl;
+
+  Product *product{car.get()};
+  product->setID();
+  cout << product->getName() << endl;
+  cout << product->id << endl;
 }
