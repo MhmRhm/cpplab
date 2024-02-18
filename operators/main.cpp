@@ -99,7 +99,7 @@ int main() {
 
   cout << t(1, 3) << endl; // 3
 
-  char mem[sizeof(Type)]{};
+  byte mem[sizeof(Type)]{};
   Type *tp{new (&mem) Type{int(0xff'ff'ff'ff)}};
   cout << *tp << endl; // -1
   tp->~Type();
