@@ -7,7 +7,7 @@ int main() {
   using namespace std;
 
   auto uptr{lend_me_this()};
-  borrow_this(move(uptr));
+  borrow_this(std::move(uptr));
   // delete_this(uptr.get());
 
   // Cpp 20

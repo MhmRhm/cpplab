@@ -34,6 +34,8 @@ int main() {
   const char8_t *utf8{u8R"(到底是怎麼回事？)"};
   cout << reinterpret_cast<const char *>(utf8) << endl;
 
+  cout << "\U00002705 \U0000274C" << endl;
+
   long double num1 = 1.234'567L;
   int num2 = num1;
   cout << format("num1 = {0:.3f}, num2 = {1}", num1, num2) << endl;

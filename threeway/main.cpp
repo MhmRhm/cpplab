@@ -11,7 +11,7 @@ struct History final {
 
   static const size_t Sum{};
   // Cpp 17
-  static inline size_t m_total{};
+  static inline size_t Total{};
 
   // Cpp 20
   // return type can be strong_ordering, partial_ordering or weak_ordering.

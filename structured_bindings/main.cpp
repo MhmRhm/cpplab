@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <utility>
 
-struct ROUTER_CS_0 {
+struct ROUTER_CS_0 final {
   uint16_t vendoeID{};
   uint16_t productID{};
 };
@@ -27,7 +27,7 @@ int main() {
     cout << format("key = {}, val = {}", key, val) << endl;
   }
 
-  // Cpp 20
+  // Cpp 20 Designated Initializers
   // vendoeID is zero initialized
   // must be an aggregate type
   ROUTER_CS_0 cs0{.productID = 0xF1A7};

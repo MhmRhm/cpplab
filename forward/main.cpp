@@ -20,7 +20,7 @@ template <typename T> constexpr auto type_name() {
   return name;
 }
 
-class Type {};
+class Type final {};
 
 template <class T> T &&myForward(T &arg) {
   using namespace std;
