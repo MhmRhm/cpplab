@@ -1,17 +1,45 @@
 #include <deque>
+#include <iostream>
+#include <string>
 #include <vector>
+
+template <typename T> constexpr auto type_name() {
+  std::string_view name, prefix, suffix;
+#ifdef __clang__
+  name = __PRETTY_FUNCTION__;
+  prefix = "auto type_name() [T = ";
+  suffix = "]";
+#elif defined(__GNUC__)
+  name = __PRETTY_FUNCTION__;
+  prefix = "constexpr auto type_name() [with T = ";
+  suffix = "]";
+#elif defined(_MSC_VER)
+  name = __FUNCSIG__;
+  prefix = "auto __cdecl type_name<";
+  suffix = ">(void)";
+#endif
+  name.remove_prefix(prefix.size());
+  name.remove_suffix(suffix.size());
+  return name;
+}
 
 template <typename Element,
           template <typename T, typename Allocator = std::allocator<T>>
           class Container = std::deque>
 class Wrapper final {
 public:
-  void include(const Element &t) { container.push_back(t); }
+  void include(Element &&t) { container.push_back(std::forward<Element>(t)); }
   void includeFront(const Element &t) { container.push_front(t); }
 
 private:
   Container<Element> container{};
 };
+
+template <typename T> struct Decorator final {
+  Decorator(T t) {}
+};
+// user defined class template argument deduction
+// Decorator(const char *) -> Decorator<std::string>;
 
 int main() {
   using namespace std;
@@ -19,6 +47,10 @@ int main() {
 
   // selective instantiation
   wrapper.include(10);
+
+  // CTAD
+  Decorator decorator{"Hello"};
+  cout << type_name<decltype(decorator)>() << endl;
 }
 // explicit template instantiations
 template class Wrapper<int, std::deque>;
