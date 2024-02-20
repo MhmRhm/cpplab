@@ -7,6 +7,8 @@
 #include "old1.h"
 // clang-format on
 
+static int UPSCount{3'000};
+
 import tlp;
 
 int main() {
@@ -21,4 +23,14 @@ int main() {
               int(header->PDF), int(header->SuppID), int(header->Rsvd),
               int(header->HopID), int(header->Length), int(header->HEC))
        << endl;
+
+  static int Var{};
+  extern int IPSCount;
+  cout << format("IPSCount = {} UPSCount = {}", IPSCount, UPSCount) << endl;
+
+  ConfigurationSpace cs{};
+  // reachable but not visible
+  cs.linkCS.DW0 = 0x00'00'00'ff;
+  // CSLink linkCS{};
+  // decltype(cs.linkCS) linkCS{};
 }

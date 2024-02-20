@@ -1,9 +1,18 @@
 module;
+// global module fragment
 #include <cstdint>
 
 export module tlp;
 
 using namespace std;
+
+// export block
+export {
+  namespace USB4 {
+  class PRBS final {};
+  class PRTS final {};
+  } // namespace USB4
+}
 
 export struct TLPHeader final {
   uint32_t HEC : 8;
@@ -31,3 +40,11 @@ bool TLPHeader::getPaddedSize() {
   }
   return Length + extra;
 }
+
+struct CSLink final {
+  uint32_t DW0{};
+};
+
+export struct ConfigurationSpace final {
+  CSLink linkCS{};
+};
