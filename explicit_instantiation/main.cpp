@@ -23,9 +23,17 @@ template <typename T> constexpr auto type_name() {
   return name;
 }
 
+template <typename ContainerType>
+concept IsDoubleEnded =
+    requires(ContainerType ct, typename ContainerType::value_type vt) {
+      { ct.push_back(vt) };
+      { ct.push_front(vt) };
+    };
+
 template <typename Element,
           template <typename T, typename Allocator = std::allocator<T>>
           class Container = std::deque>
+// requires IsDoubleEnded<Container<Element>>
 class Wrapper final {
 public:
   void include(Element &&t) { container.push_back(std::forward<Element>(t)); }
