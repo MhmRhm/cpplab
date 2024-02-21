@@ -23,17 +23,30 @@ template <typename T> constexpr auto type_name() {
   return name;
 }
 
-template <typename ContainerType>
-concept IsDoubleEnded =
-    requires(ContainerType ct, typename ContainerType::value_type vt) {
-      { ct.push_back(vt) };
-      { ct.push_front(vt) };
-    };
+// template <typename ContainerType>
+// concept BackPushable =
+//     requires(ContainerType ct, typename ContainerType::value_type vt) {
+//       ct.push_back(vt);
+//     };
+// template <typename ContainerType>
+// concept FrontPushable =
+//     requires(ContainerType ct, typename ContainerType::value_type vt) {
+//       ct.push_front(vt);
+//     };
+// template <typename ContainerType>
+// concept DoubleEnded =
+//     BackPushable<ContainerType> && FrontPushable<ContainerType>;
+
+// requires DoubleEnded<Container<Element>>
+
+//  requires requires(Container<Element> ct, Element et) {
+//    ct.push_back(et);
+//    ct.push_front(et);
+//  }
 
 template <typename Element,
           template <typename T, typename Allocator = std::allocator<T>>
           class Container = std::deque>
-// requires IsDoubleEnded<Container<Element>>
 class Wrapper final {
 public:
   void include(Element &&t) { container.push_back(std::forward<Element>(t)); }
