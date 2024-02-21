@@ -1,5 +1,8 @@
+#include <cmath>
+#include <concepts>
 #include <deque>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -37,6 +40,8 @@ template <typename T> constexpr auto type_name() {
 // concept DoubleEnded =
 //     BackPushable<ContainerType> && FrontPushable<ContainerType>;
 
+// requires(sizeof(int) == 4)
+
 // requires DoubleEnded<Container<Element>>
 
 //  requires requires(Container<Element> ct, Element et) {
@@ -72,6 +77,15 @@ template <typename T> struct Countable final {
   friend Countable operator+(const Countable &lhs, const Countable &rhs);
 };
 
+template <std::floating_point T> bool isEqual(const T &lhs, const T &rhs) {
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  return std::fabs(lhs - rhs) < std::numeric_limits<T>::min();
+}
+template <std::integral T> bool isEqual(const T &lhs, const T &rhs) {
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  return lhs == rhs;
+}
+
 int main() {
   using namespace std;
   Wrapper<int, vector> wrapper;
@@ -85,6 +99,9 @@ int main() {
 
   Countable c1{1}, c2{2};
   // cout << (c1 + c2).t << endl;
+
+  isEqual(3.14, 3.14);
+  isEqual(3, 3);
 }
 // explicit template instantiations
 template class Wrapper<int, std::deque>;
