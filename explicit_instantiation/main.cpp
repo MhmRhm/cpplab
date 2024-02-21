@@ -41,6 +41,16 @@ template <typename T> struct Decorator final {
 // user defined class template argument deduction
 // Decorator(const char *) -> Decorator<std::string>;
 
+template <typename T> struct Countable;
+template <typename T>
+Countable<T> operator+(const Countable<T> &lhs, const Countable<T> &rhs) {
+  return Countable{lhs.t + rhs.t};
+}
+template <typename T> struct Countable final {
+  T t{};
+  friend Countable operator+(const Countable &lhs, const Countable &rhs);
+};
+
 int main() {
   using namespace std;
   Wrapper<int, vector> wrapper;
@@ -51,6 +61,9 @@ int main() {
   // CTAD
   Decorator decorator{"Hello"};
   cout << type_name<decltype(decorator)>() << endl;
+
+  Countable c1{1}, c2{2};
+  // cout << (c1 + c2).t << endl;
 }
 // explicit template instantiations
 template class Wrapper<int, std::deque>;
