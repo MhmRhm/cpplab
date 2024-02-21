@@ -20,32 +20,53 @@ template <typename T> constexpr auto type_name() {
   return name;
 }
 
-class Type final {};
+class Type final {
+public:
+  Type() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Type(const Type &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Type(Type &&) noexcept { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Type &operator=(const Type &) {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return *this;
+  }
+  Type &operator=(Type &&) noexcept {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return *this;
+  }
+  ~Type() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+};
+
+namespace {
+int LineNumber{};
+} // namespace
 
 template <class T> T &&myForward(T &arg) {
   using namespace std;
-  cout << __PRETTY_FUNCTION__ << endl;
-  cout << type_name<decltype(arg)>() << endl;
+  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
+  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
   return static_cast<T &&>(arg);
 }
 
 template <class T> void typeIndicator(T &&arg) {
   using namespace std;
-  cout << __PRETTY_FUNCTION__ << endl;
-  cout << type_name<decltype(arg)>() << endl;
+  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
+  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
 }
 
 template <class T> void wrapper(T &&arg) {
   using namespace std;
-  cout << __PRETTY_FUNCTION__ << endl;
-  cout << type_name<decltype(arg)>() << endl;
+  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
+  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
   typeIndicator(myForward<T>(arg));
+  T t = myForward<T>(arg);
 }
 
 int main() {
   using namespace std;
+
   Type var{};
   wrapper(var);
+
   cout << endl;
   wrapper(Type{});
 }
