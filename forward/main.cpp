@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string_view>
 
 template <typename T> constexpr auto type_name() {
   std::string_view name, prefix, suffix;
@@ -41,32 +42,27 @@ int LineNumber{};
 } // namespace
 
 template <class T> T &&myForward(T &arg) {
-  using namespace std;
-  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
-  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
+  std::cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << ++LineNumber << " " << type_name<decltype(arg)>() << std::endl;
   return static_cast<T &&>(arg);
 }
 
 template <class T> void typeIndicator(T &&arg) {
-  using namespace std;
-  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
-  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
+  std::cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << ++LineNumber << " " << type_name<decltype(arg)>() << std::endl;
 }
 
 template <class T> void wrapper(T &&arg) {
-  using namespace std;
-  cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << endl;
-  cout << ++LineNumber << " " << type_name<decltype(arg)>() << endl;
+  std::cout << ++LineNumber << " " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << ++LineNumber << " " << type_name<decltype(arg)>() << std::endl;
   typeIndicator(myForward<T>(arg));
-  T t = myForward<T>(arg);
+  T temp = myForward<T>(arg);
 }
 
 int main() {
-  using namespace std;
-
   Type var{};
   wrapper(var);
 
-  cout << endl;
-  wrapper(Type{});
+  std::cout << std::endl;
+  wrapper(std::move(var));
 }
