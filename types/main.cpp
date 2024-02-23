@@ -35,6 +35,10 @@ int main() {
   cout << reinterpret_cast<const char *>(utf8) << endl;
 
   cout << "\U00002705 \U0000274C" << endl;
+  cout << "\101"   // octal
+       << "\x41"   // hex
+       << "\u0041" // unicode
+       << "\U00000041" << endl;
 
   long double num1 = 1.234'567L;
   int num2 = num1;
