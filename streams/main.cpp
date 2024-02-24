@@ -1,9 +1,10 @@
+#include <algorithm>
 #include <exception>
 #include <format>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
-#include <locale>
+#include <string>
+#include <vector>
 
 int main() {
   using namespace std;
@@ -22,27 +23,16 @@ int main() {
     std::cerr << e.what() << std::endl;
   }
 
-  time_t t_t{time(nullptr)};
-  tm *t{localtime(&t_t)};
-
-  cout << format("Default Locale: {}, System Locale;{}", locale{}.name(),
-                 locale{""}.name())
-       << endl;
-
-  locale::global(locale{"en_US.UTF-8"});
-
-  cout << format("Default Locale: {}, System Locale: {}, Locale on cout: {}",
-                 locale{}.name(), locale{""}.name(), cout.getloc().name())
-       << endl;
-
-  // sudo locale-gen ms_MY.UTF-8
-  cout.imbue(locale{"ms_MY.UTF-8"});
-  cout << '[' << setfill('_') << setw(5) << 42 << ']' << endl
-       << showbase << put_money(1024) << noshowbase << endl
-       << put_time(t, "%c") << endl
-       << use_facet<moneypunct<char>>(cout.getloc()).curr_symbol() << endl;
-
-  auto oldPercision{cout.precision(10)};
-  cout << 1.0 / 3.0 << endl;
-  cout << setprecision(oldPercision) << 1.0 / 3.0 << endl;
+  string name;
+  vector<string> party{};
+  while (getline(cin, name, '\n')) {
+    if (!name.length())
+      break;
+    name.erase(name.find_last_not_of(' ') + 1);
+    name.erase(0, name.find_first_not_of(' '));
+    party.push_back(name);
+  }
+  for (auto &&name : party) {
+    cout << format("Welcome {}!", name) << endl;
+  }
 }
