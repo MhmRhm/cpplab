@@ -1,7 +1,18 @@
+#include <algorithm>
 #include <format>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
 #include <locale>
+#include <vector>
+
+template <typename T>
+using iwstream_iterator =
+    std::istream_iterator<T, wchar_t, std::char_traits<wchar_t>>;
+
+template <typename T>
+using owstream_iterator =
+    std::ostream_iterator<T, wchar_t, std::char_traits<wchar_t>>;
 
 int main() {
   using namespace std;
@@ -40,11 +51,14 @@ int main() {
       return ctype::do_is(m, c);
     }
   };
-  wcin.imbue(locale{wcin.getloc(), new CommaSeperator{}});
+
   wstring wname{};
-  while (wcin >> wname) {
-    if (wname == L"")
-      break;
-    wcout << format(L"Welcome {}!", wname) << endl;
-  }
+  vector<wstring> wparty{};
+
+  wcin.imbue(locale{wcin.getloc(), new CommaSeperator{}});
+
+  cout << "Enter participants name: " << endl;
+  copy(iwstream_iterator<wstring>{wcin}, iwstream_iterator<wstring>{},
+       back_inserter(wparty));
+  copy(wparty.begin(), wparty.end(), owstream_iterator<wstring>{wcout, L"\n"});
 }

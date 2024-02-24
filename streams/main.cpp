@@ -3,6 +3,8 @@
 #include <format>
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -23,11 +25,42 @@ int main() {
     std::cerr << e.what() << std::endl;
   }
 
-  string name;
+  string name{};
   vector<string> party{};
-  while (getline(cin, name, '\n')) {
-    if (!name.length())
+
+  cout << "Enter participants name: " << endl;
+  while (cin) {
+    int code{cin.get()};
+    if (code == char_traits<char>::eof()) {
       break;
+    }
+    if (iswspace(code)) {
+      party.push_back(name);
+      name = {};
+      continue;
+    }
+    if (!isalpha(code)) {
+      party.push_back(name);
+      name = {};
+      break;
+    }
+    name.push_back(static_cast<char>(code));
+  }
+  for (auto &&name : party) {
+    cout << format("Welcome {}!", name) << endl;
+  }
+  name = {};
+  party.clear();
+
+  cin.clear();
+  cin.ignore();
+
+  cout << "Enter participants name: " << endl;
+  while (getline(cin, name, '\n')) {
+    if (!name.length()) {
+      cout << '[' << name << ']' << "Here 1" << endl;
+      break;
+    }
     name.erase(name.find_last_not_of(' ') + 1);
     name.erase(0, name.find_first_not_of(' '));
     party.push_back(name);
@@ -35,4 +68,11 @@ int main() {
   for (auto &&name : party) {
     cout << format("Welcome {}!", name) << endl;
   }
+
+  party.clear();
+
+  cout << "Enter participants name: " << endl;
+  copy(istream_iterator<string>{cin}, istream_iterator<string>{},
+       back_inserter(party));
+  copy(party.begin(), party.end(), ostream_iterator<string>{cout, "\n"});
 }
