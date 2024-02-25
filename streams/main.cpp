@@ -118,4 +118,10 @@ int main() {
                    record.age)
          << endl;
   }
+
+  ifstream textFile{FILE_ADDRESS};
+  string text{istream_iterator<char>{textFile}, istream_iterator<char>{}};
+  // string text{istreambuf_iterator<char>{textFile},
+  // istreambuf_iterator<char>{}};
+  cout << format("[{}]", text) << endl;
 }
