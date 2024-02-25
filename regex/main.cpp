@@ -75,13 +75,19 @@ int main() {
   }
 
   pattern = R"((\d{1,3}).(\d{1,3}).(\d{1,3}).(\d{1,3}))";
-  regex regx{pattern};
+  regex regx1{pattern};
   cout << "Enter valid IP: " << endl;
   // try abc1.1.1.444.0
-  while (getline(cin, text) && text != "exit") {
-    for (sregex_token_iterator token{cbegin(text), cend(text), regx, {4}};
+  while (getline(cin, text) && text != "finish") {
+    for (sregex_token_iterator token{cbegin(text), cend(text), regx1, {4}};
          token != sregex_token_iterator{}; advance(token, 1)) {
       cout << format("Your Sub-Domain Address is {}", token->str()) << endl;
     }
   }
+
+  pattern = R"(@(.*)\.com)";
+  regex regx2{pattern};
+  text = R"(logged-in user is name@domain.com)";
+  string report{" from $1"};
+  cout << regex_replace(text, regx2, report) << endl;
 }
