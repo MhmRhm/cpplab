@@ -19,7 +19,6 @@ int main() {
   using namespace std;
 
   ofstream file{};
-
   // for files use neutral locale, for UI use system locale
   file.imbue(locale{"C"});
   // if constructor was used to open the file this line would have thrown
