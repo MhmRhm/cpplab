@@ -106,6 +106,6 @@ int main() {
   // valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
   // --verbose ./operators
 
-  cout << 1234_t << endl;   // 1234
-  cout << "1234"_t << endl; // 1234
+  cout << 1234_t << endl;   // 1234 raw or cooked(int)
+  cout << "1234"_t << endl; // 1234 cooked(str)
 }
