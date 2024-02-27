@@ -83,6 +83,7 @@ int main() {
        << endl;
 
   // Cpp 20 timezone
+  // in bash run timedatectl list-timezones
   const auto &tzList{chrono::get_tzdb_list()};
   for (auto itr{tzList.cbegin()}; itr != tzList.cend(); advance(itr, 1)) {
     cout << format("{}", itr->current_zone()->name()) << endl;
