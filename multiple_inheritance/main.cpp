@@ -15,7 +15,7 @@ int main() {
     int experience{};
 
     void work() const { cout << "I am fixing a bug." << endl; }
-    void work(size_t bugNumber) const {
+    void work(unsigned long int bugNumber) const {
       cout << format("I am fixing item #{}.", bugNumber) << endl;
     }
   };
@@ -49,7 +49,7 @@ int main() {
   leadDev.show();
 
   struct Memory {
-    uint64_t qwords[4]{};
+    uint64_t qwords[sizeof(LeadDeveloper) / 8]{};
   };
   cout << format("sizeof(Memory) = {}, sizeof(LeadDeveloper) = {}",
                  sizeof(Memory), sizeof(LeadDeveloper))
