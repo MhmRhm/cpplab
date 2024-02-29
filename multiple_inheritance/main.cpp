@@ -44,31 +44,34 @@ int main() {
     }
   };
 
-  LeadDeveloper leadDev{"Steve Wozniak", 26, 13, "Steve Jobs", 20, 1};
-  // leadDev.getOld();
-  leadDev.show();
-
-  struct Memory {
+  struct Image {
     uint64_t qwords[sizeof(LeadDeveloper) / 8]{};
   };
   cout << format("sizeof(Memory) = {}, sizeof(LeadDeveloper) = {}",
-                 sizeof(Memory), sizeof(LeadDeveloper))
+                 sizeof(Image), sizeof(LeadDeveloper))
        << endl;
-  static_assert(sizeof(Memory) == sizeof(LeadDeveloper),
+  static_assert(sizeof(Image) == sizeof(LeadDeveloper),
                 "Memory must be of the same size as LeadDeveloper.");
+
+  byte memory[sizeof(LeadDeveloper)]; // {};
+  LeadDeveloper *leadDevPtr =
+      new (&memory) LeadDeveloper{"Steve Wozniak", 26, 13, "Steve Jobs", 20, 1};
+
+  // leadDevPtr->getOld();
+  leadDevPtr->show();
 
   // Cpp 20 bit_cat
   cout << "is LeadDeveloper trivially copyable: "
        << is_trivially_copyable_v<LeadDeveloper> << endl;
-  Memory memory{bit_cast<Memory>(leadDev)};
+  Image image{bit_cast<Image>(*leadDevPtr)};
 
   cout << format("&Developer::name = {:0X}",
-                 reinterpret_cast<uint64_t>(leadDev.Developer::name))
+                 reinterpret_cast<uint64_t>(leadDevPtr->Developer::name))
        << endl;
   cout << format("&Manager::name = {:0X}",
-                 reinterpret_cast<uint64_t>(leadDev.Manager::name))
+                 reinterpret_cast<uint64_t>(leadDevPtr->Manager::name))
        << endl;
-  for (auto &&qw : memory.qwords) {
+  for (auto &&qw : image.qwords) {
     cout << format("{:016X}", qw) << endl;
   }
 }
