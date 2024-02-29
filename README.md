@@ -1,4 +1,4 @@
-How I run the code:
+How I run the code on Linux:
 - Setup an Ubuntu Server 23.10
 - Install clang-17
 - Build cmake 3.28.0 or above
@@ -33,4 +33,17 @@ cd ../../cpplab
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/clang-17 -DCMAKE_CXX_COMPILER=/usr/bin/clang++-17 -B build -G Ninja
 cmake --build build/ -j $(nproc)
 ./build/modules/modules
+```
+
+How I run the code on Windows:
+- Install clang-17 or above
+- Install cmake 3.28.0 or above
+- Install Ninja
+
+```bash
+cd cpplab/
+
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE "-DCMAKE_C_COMPILER:FILEPATH=C:\Program Files\LLVM\bin\clang.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=C:\Program Files\LLVM\bin\clang++.exe" -S . -B build "-DCMAKE_MAKE_PROGRAM=C:\Ninja\ninja.exe" -G Ninja
+
+"C:\Program Files\CMake\bin\cmake.exe" --build build
 ```
