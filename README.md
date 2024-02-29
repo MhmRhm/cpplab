@@ -36,7 +36,8 @@ cmake --build build/ -j $(nproc)
 ```
 
 How I run the code on Windows:
-- Install clang-17 or above
+- Install Visual Studio 2022
+- Install clang-17 or above and add to path
 - Install cmake 3.28.0 or above
 - Install Ninja
 
