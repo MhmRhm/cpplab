@@ -8,6 +8,27 @@
 
 #include "../vocal/inner_outer.h"
 
+// clang-format off
+struct Good final {
+  Good() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  ~Good() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+};
+struct Bad final {
+  Good good{};
+  Bad() try : good{Good{}} {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    throw std::runtime_error{"Bad Exception"};
+  }
+  catch (const std::exception& e) {
+    std::cerr << e.what() << std::endl;
+  }
+  catch (...) {
+    // cleanup
+  }
+  ~Bad() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+};
+// clang-format off
+
 static std::byte *reservoir{new std::byte[1024 * 1024 * 1024]};
 void handler1() {
   // std::set_new_handler(nullptr);
@@ -39,28 +60,34 @@ int main() {
   try {
     run2();
   } catch (const Outer &e) {
-    cout << typeid(e).name() << endl;
+    cerr << typeid(e).name() << endl;
     try {
-      cout << "catching Outter" << endl;
+      cerr << "catching Outter" << endl;
       rethrow_if_nested(e);
     } catch (const Inner &e) {
-      cout << typeid(e).name() << endl;
-      cout << "catching Inner" << endl;
+      cerr << typeid(e).name() << endl;
+      cerr << "catching Inner" << endl;
     }
   }
 
   try {
     run3();
   } catch (const source_location &e) {
-    cout << format("{}, {}, line {}", e.file_name(), e.function_name(),
+    cerr << format("{}, {}, line {}", e.file_name(), e.function_name(),
                    e.line())
          << endl;
+  }
+
+  try {
+    Bad{};
+  } catch (const std::exception &e) {
+    cerr << e.what() << endl;
   }
 
   try {
     set_new_handler(handler2);
     byte *memory{new byte[1024 * 1024 * 1024 * 1024UL]};
   } catch (const std::exception &e) {
-    std::cerr << e.what() << '\n';
+    cerr << e.what() << endl;
   }
 }
