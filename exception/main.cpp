@@ -50,7 +50,9 @@ void run2() {
     run1();
   } catch (...) {
     cerr << "throwing Outer" << endl;
+    // clean-up
     throw_with_nested(Outer{});
+    // rest of clean-up
   }
 }
 void run3() { throw std::source_location::current(); }
@@ -66,8 +68,8 @@ int main() {
       cerr << "catching Outter" << endl;
       rethrow_if_nested(e);
     } catch (const Inner &e) {
-      cerr << typeid(e).name() << endl;
       cerr << "catching Inner" << endl;
+      cerr << typeid(e).name() << endl;
     }
   }
 
