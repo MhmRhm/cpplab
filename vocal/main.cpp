@@ -2,21 +2,7 @@
 #include <iostream>
 #include <vector>
 
-class Inner final {
-public:
-  Inner() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  Inner(const Inner &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  Inner &operator=(const Inner &src) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    return *this;
-  }
-  Inner(Inner &&) noexcept { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  Inner &operator=(Inner &&src) noexcept {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    return *this;
-  }
-  friend void swap(Inner &lhs, Inner &rhs) {}
-};
+#include "inner_outer.h"
 
 class Vocal {
   int m_id{};
