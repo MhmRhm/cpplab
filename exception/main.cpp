@@ -24,6 +24,7 @@ struct Bad final {
   }
   catch (...) {
     // cleanup
+    throw;
   }
   ~Bad() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 };
