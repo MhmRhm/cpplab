@@ -27,8 +27,8 @@ int main() {
   try {
     file.open("/file.txt", fstream::out | fstream::app);
     file << "content" << endl;
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << std::endl;
+  } catch (const exception &e) {
+    cerr << e.what() << endl;
   }
 
   string name{};
@@ -76,7 +76,7 @@ int main() {
 
   party.clear();
 
-  istringstream str{"Mohammad Rahimi\nWolf Blitzer\nErin Burnett"};
+  istringstream str{"Jake Tapper\nWolf Blitzer\nErin Burnett"};
   copy(istream_iterator<string>{str}, istream_iterator<string>{},
        back_inserter(party));
   copy(party.begin(), party.end(), ostream_iterator<string>{cout, "\n"});
@@ -91,8 +91,8 @@ int main() {
 
   try {
     document.open("./records", ios::binary | ios::trunc | ios::in | ios::out);
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << '\n';
+  } catch (const exception &e) {
+    cerr << e.what() << endl;
   }
 
   for (auto &&record : records) {

@@ -101,7 +101,7 @@ int main() {
                tie(other.firstName, other.lastName);
       }
     };
-    auto res{Person{"Mohammad", "Rahimi"} <=> Person{"Mohammad", "Rhimi"}};
+    auto res{Person{"John", "King"} <=> Person{"John", "King"}};
     cout << is_lt(res) << endl;
   }
 }
