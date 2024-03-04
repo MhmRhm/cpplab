@@ -31,18 +31,19 @@ public:
   virtual ~Inner() {
     std::cout << __PRETTY_FUNCTION__ << " " << id << std::endl;
   }
+
+  auto operator<=>(const Inner &) const = default;
+
   friend void swap(Inner &lhs, Inner &rhs) {
     using namespace std;
     std::cout << __PRETTY_FUNCTION__ << " " << lhs.id << " <-> " << rhs.id
               << std::endl;
     swap(lhs.id, rhs.id);
   }
-
   friend std::ostream &operator<<(std::ostream &out, const Inner &inner) {
     return out << inner.id;
   }
 
-private:
   int id{InnerID += 1};
 };
 
@@ -70,17 +71,18 @@ public:
   virtual ~Outer() {
     std::cout << __PRETTY_FUNCTION__ << " " << id << std::endl;
   }
+
+  auto operator<=>(const Outer &) const = default;
+
   friend void swap(Outer &lhs, Outer &rhs) {
     using namespace std;
     std::cout << __PRETTY_FUNCTION__ << " " << lhs.id << " <-> " << rhs.id
               << std::endl;
     swap(lhs.id, rhs.id);
   }
-
   friend std::ostream &operator<<(std::ostream &out, const Outer &outer) {
     return out << outer.id;
   }
 
-private:
   int id{OuterID += 1};
 };
