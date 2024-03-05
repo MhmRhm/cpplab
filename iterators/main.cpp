@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <cstdint>
 #include <deque>
 #include <exception>
 #include <format>
@@ -18,7 +19,7 @@ template <typename T>
 using owstream_iterator =
     std::ostream_iterator<T, wchar_t, std::char_traits<wchar_t>>;
 
-std::vector<unsigned char> operator""_t(const char *str, size_t len) {
+std::vector<uint16_t> operator""_t(const char *str, size_t len) {
   using namespace std;
 
   auto is_valid{[](const auto &c) {
@@ -35,19 +36,18 @@ std::vector<unsigned char> operator""_t(const char *str, size_t len) {
   }};
 
   string_view chars{str, len};
-  auto bytes{chars | views::filter(is_valid) | views::chunk(4) | views::all |
+  auto bytes{chars | views::filter(is_valid) | views::chunk(7) | views::all |
              views::transform([](auto &&chars) {
-               unsigned char bits{};
-               for (size_t index{8}; auto &&c : chars) {
-                 auto val{c - '0'};
-                 index -= 2;
-                 bits |= val << index;
+               uint16_t word{};
+               for (auto &&c : chars) {
+                 word <<= 2;
+                 word |= (c - '0');
                }
-               return bits;
+               return word;
              }) |
              views::common};
 
-  return vector<unsigned char>{bytes.begin(), bytes.end()};
+  return vector<uint16_t>{bytes.begin(), bytes.end()};
 }
 
 int main() {
@@ -126,8 +126,8 @@ int main() {
   }
 
   try {
-    for (auto &&byte : "0222 2220 0000   0002 2220   0000 2222"_t) {
-      cout << format("{:0>8b}", byte) << endl;
+    for (auto &&word : "0222 2220 0000   0002 2220   0000 2222"_t) {
+      cout << format("{0:0>4X} - {0:0>16b}", word) << endl;
     }
   } catch (const std::exception &e) {
     std::cerr << e.what() << endl;
