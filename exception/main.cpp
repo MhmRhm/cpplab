@@ -28,18 +28,28 @@ struct Bad final {
   }
   ~Bad() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 };
-// clang-format off
+// clang-format on
 
-static std::byte *reservoir{new std::byte[1024 * 1024 * 1024]};
-void handler1() {
-  // std::set_new_handler(nullptr);
-  std::cout << "handler1" << std::endl;
+bool save_document() { return true; }
+
+namespace {
+std::byte *reservoir{new std::byte[1024 * 1024 * 1024]};
+} // namespace
+
+void final_attempt() {
+  using namespace std;
+  cout << "final attempt" << endl;
+  // set_new_handler(nullptr);
   delete[] reservoir;
   reservoir = nullptr;
+  save_document();
 }
-void handler2() {
-  std::cout << "handler2" << std::endl;
-  std::set_new_handler(handler1);
+void first_attempt() {
+  using namespace std;
+  cout << "first attempt" << endl;
+  set_new_handler(final_attempt);
+  cout << "Close other applications then hit enter." << endl;
+  cin.ignore();
 };
 
 void run1() { throw Inner{}; }
@@ -88,7 +98,7 @@ int main() {
   }
 
   try {
-    set_new_handler(handler2);
+    set_new_handler(first_attempt);
     byte *memory{new byte[1024 * 1024 * 1024 * 1024UL]};
   } catch (const std::exception &e) {
     cerr << e.what() << endl;

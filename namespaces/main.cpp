@@ -18,6 +18,13 @@ void print() {
 }
 } // namespace new1::new2
 
+namespace {
+struct Type {};
+Type type{};
+
+std::ostream &operator<<(std::ostream &out, Type) { return out; }
+} // namespace
+
 enum class Seasons : int {
   Spring = 0,
   Summer,
@@ -26,6 +33,8 @@ enum class Seasons : int {
 };
 
 int main() {
+  using namespace std;
+
   {
     using old1::old2::print;
     print();
@@ -34,6 +43,8 @@ int main() {
     using new1::new2::print;
     print();
   }
+
+  cout << type << endl;
 
   // Cpp 20
   auto var{Seasons::Summer};
