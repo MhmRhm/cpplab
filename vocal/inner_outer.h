@@ -43,7 +43,7 @@ public:
   friend std::ostream &operator<<(std::ostream &out, const Inner &inner) {
     return out << inner.id;
   }
-  Inner(int identity) : id{identity} {
+  Inner(int identity, int redundant) : id{identity} {
     std::cout << __PRETTY_FUNCTION__ << " " << id << std::endl;
   }
   int id{InnerID += 1};
