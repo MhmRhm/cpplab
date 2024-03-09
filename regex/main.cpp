@@ -90,4 +90,26 @@ int main() {
   text = R"(logged-in user is name@domain.com)";
   string report{" from $1"};
   cout << regex_replace(text, regx2, report) << endl;
+
+  struct csv_whitespace : std::ctype<char> {
+    static const mask *make_table() {
+      static std::vector<mask> v(classic_table(), classic_table() + table_size);
+      v[','] |= space;
+      v[' '] &= ~space;
+      return &v[0];
+    }
+    csv_whitespace(std::size_t refs = 0) : ctype(make_table(), false, refs) {}
+  };
+
+  locale::global(locale{locale{}, new csv_whitespace{}});
+  pattern = R"((\S+))";
+  regex regx3{pattern};
+
+  string guests{"Christiane Amanpour,,,Jim Acosta,Kate Bolduan"};
+
+  cout << endl << "Our guests are:" << endl;
+  for (auto it{sregex_iterator{cbegin(guests), cend(guests), regx3}};
+       it != sregex_iterator{}; ++it) {
+    cout << it->str() << endl;
+  }
 }
