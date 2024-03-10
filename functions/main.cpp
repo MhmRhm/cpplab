@@ -1,5 +1,6 @@
 #include <chrono>
 #include <cmath>
+#include <concepts>
 #include <format>
 #include <functional>
 #include <iostream>
@@ -7,6 +8,12 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+
+#include "../vocal/inner_outer.h"
+
+namespace {
+int num0{10};
+}
 
 int *f1(int *) {
   std::cout << __PRETTY_FUNCTION__ << std::endl;
@@ -80,4 +87,49 @@ int main() {
   unordered_map<string, chrono::years, HetroHash, equal_to<>> ages{
       pair{"Alisyn Camerota", chrono::years{57}}};
   auto it{ages.find("John King")};
+
+  auto isOld{bind(greater<>{}, placeholders::_1, chrono::years{57})};
+  cout << isOld(chrono::years{90}) << endl;
+
+  auto f{mem_fn(&vector<int>::size)};
+  for (vector<int> &v : vector<vector<int>>{{1, 2, 3}, {1, 2}, {1}}) {
+    cout << f(v) << endl;
+  }
+
+  int num1{100}, num2{1'000};
+  auto l1{[num1] mutable noexcept -> void { num1 *= 2; }};
+  l1();
+  cout << num1 << endl;
+
+  // Cpp 20
+  // [=] does not capture `this`. Instead use [=, this].
+  auto l2{[=, &num1] mutable {
+    num1 *= 2;
+    num2 *= 2;
+  }};
+  l2();
+  cout << num1 << " " << num2 << endl;
+
+  auto l3{[=] { num0 *= 2; }};
+  l3();
+  cout << num0 << endl;
+
+  // lambda capture expressions
+  Inner inner{};
+  auto l4{[p = std::move(inner)] { cout << p.id << endl; }};
+  l4();
+
+  auto l5{[]<typename T>(const vector<T> &v)
+            requires floating_point<T>
+          {
+            for (auto &&i : v) {
+              cout << format("{:5.3f}", i) << endl;
+            }
+          }};
+  vector<float> v1{.1, .2, .3};
+  vector<double> v2{.1, .2, .3};
+  vector<int> v3{1, 2, 3};
+  l5(v1);
+  l5(v2);
+  // l5(v3);
 }
