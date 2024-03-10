@@ -1,0 +1,83 @@
+#include <chrono>
+#include <cmath>
+#include <format>
+#include <functional>
+#include <iostream>
+#include <numeric>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
+
+int *f1(int *) {
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  return nullptr;
+};
+
+struct C1 final {
+  int const *const m1(int const *const) const {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return nullptr;
+  }
+  void m2() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+};
+
+int main() {
+  using namespace std;
+
+  using F1Type = int *(*)(int *);
+  F1Type f1p{&f1};
+  f1p(nullptr);
+
+  using M1Type = int const *const (C1::*)(int const *const) const;
+  M1Type m1p{&C1::m1};
+  (C1{}.*m1p)(nullptr);
+
+  using ConstM1Type = int const *const (C1::*const)(int const *const) const;
+  ConstM1Type cm1p{&C1::m1};
+  // cm1p = &C1::m1;
+
+  function<int const *const(const C1 &, int const *const)> m1fp = &C1::m1;
+  // function<void(const C1 &)> m2fp = &C1::m2;
+  m1fp(C1{}, nullptr);
+
+  invoke(&f1, nullptr);
+  invoke(&C1::m2, C1{});
+  invoke(m1fp, C1{}, nullptr);
+
+  struct Comparator {
+    bool operator()(int lhs, int rhs) { return lhs < rhs; }
+    bool operator()(float lhs, float rhs) { return lhs < rhs; }
+  };
+  bool (Comparator::*compare)(int, int){&Comparator::operator()};
+  // auto opptr{&Comparator::operator()};
+  auto opptr{
+      static_cast<bool (Comparator::*)(int, int)>(&Comparator::operator())};
+
+  cout << negate<>{}(100) << endl;
+  cout << logical_not<>{}(100) << endl;
+  cout << bit_not<>{}(0b0011) << endl;
+
+  // https://en.cppreference.com/w/cpp/utility/functional#Transparent_function_objects
+  static_assert(requires(modulus<>::is_transparent T) { true; });
+
+  // inaccurate result
+  vector nums{1, 1, 1};
+  auto arithmeticAverage{
+      accumulate(cbegin(nums), cend(nums), 0.99, plus<int>{}) / nums.size()};
+  auto geometricAverage{
+      pow(accumulate(cbegin(nums), cend(nums), 0.99, multiplies<int>{}),
+          1.0 / nums.size())};
+  cout << format("arithmetic average = {}, geometric average = {}",
+                 arithmeticAverage, geometricAverage)
+       << endl;
+
+  // unnecessary copying
+  // Cpp 20 heterogeneous lookups
+  struct HetroHash final {
+    using is_transparent = void;
+    size_t operator()(string_view sv) const { return hash<string_view>{}(sv); }
+  };
+  unordered_map<string, chrono::years, HetroHash, equal_to<>> ages{
+      pair{"Alisyn Camerota", chrono::years{57}}};
+  auto it{ages.find("John King")};
+}
