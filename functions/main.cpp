@@ -116,10 +116,20 @@ int main() {
 
   // lambda capture expressions
   Inner inner{};
-  auto l4{[p = std::move(inner)] { cout << p.id << endl; }};
+  auto l4{[p = std::move(inner)] { cout << "inner.id = " << p.id << endl; }};
   l4();
+  // decltype(l4) l41;
+  decltype(l4) l41{l4};
+  l41();
 
-  auto l5{[]<typename T>(const vector<T> &v)
+  auto l5{[](int a, int b) { return a < b; }};
+  // Cpp 20 stateless lambda expressions default constructor and assignment
+  // operator
+  decltype(l5) l51;
+  l51 = l5;
+
+  // Cpp 20
+  auto l6{[]<typename T>(const vector<T> &v)
             requires floating_point<T>
           {
             for (auto &&i : v) {
@@ -129,7 +139,7 @@ int main() {
   vector<float> v1{.1, .2, .3};
   vector<double> v2{.1, .2, .3};
   vector<int> v3{1, 2, 3};
-  l5(v1);
-  l5(v2);
-  // l5(v3);
+  l6(v1);
+  l6(v2);
+  // l6(v3);
 }
