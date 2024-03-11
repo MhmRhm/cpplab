@@ -22,6 +22,14 @@ int main() {
   cout << format("rotl(0b0011'1100U, 2) = {:B}", rotl(0b0011'1100U, 2)) << endl;
   cout << format("popcount(0b0001'0000U) = {}", popcount(0b0001'0000U)) << endl;
 
+  if constexpr (endian::native == endian::big) {
+    cout << "big-endian" << endl;
+  } else if constexpr (endian::native == endian::little) {
+    cout << "little-endian" << endl;
+  } else {
+    cout << "mixed-endian" << endl;
+  }
+
   cout << format("Probability of the outcome to be above 4\u03c3 = {:.5f}%",
                  100 - 100 * normalDistributionProbability(
                                  numeric_limits<double>::lowest(), 3))
