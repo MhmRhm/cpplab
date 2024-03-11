@@ -10,6 +10,7 @@ sudo apt-get install clang-17 clang-format-17 clang-tidy-17 clang-tools-17
 sudo apt-get install doxygen graphviz cppcheck valgrind lcov
 sudo apt-get install libssl-dev
 sudo apt-get install ninja-build
+sudo apt-get install libtbb-dev
 
 sudo apt-get remove cmake
 sudo apt-get autoremove
@@ -40,6 +41,7 @@ How I run the code on Windows:
 - Install clang-17 or above and add to path
 - Install cmake 3.28.0 or above
 - Install Ninja and add to path
+- Install Intel's TBB
 
 ```bash
 cd cpplab/
