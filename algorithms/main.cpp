@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include <numeric>
+#include <syncstream>
 #include <thread>
 #include <vector>
 
@@ -36,14 +37,19 @@ int main() {
   array inners{Inner{}, Inner{}, Inner{}, Inner{}};
 
   auto t1{chrono::steady_clock::now()};
-  for_each(cbegin(inners), cend(inners),
-           [](const Inner &inner) { this_thread::sleep_for(1s); });
+  for_each(cbegin(inners), cend(inners), [](const Inner &inner) {
+    this_thread::sleep_for(1s);
+    cout << format("inner.id = {}", inner.id) << endl;
+  });
   auto t2{chrono::steady_clock::now()};
   cout << format("t2 - t1 = {}", t2 - t1) << endl;
 
   auto t3{chrono::steady_clock::now()};
-  for_each(execution::par, cbegin(inners), cend(inners),
-           [](const Inner &inner) { this_thread::sleep_for(1s); });
+  for_each(execution::par_unseq, cbegin(inners), cend(inners),
+           [](const Inner &inner) {
+             this_thread::sleep_for(1s);
+             osyncstream(cout) << format("inner.id = {}", inner.id) << endl;
+           });
   auto t4{chrono::steady_clock::now()};
   cout << format("t4 - t3 = {}", t4 - t3) << endl;
 
