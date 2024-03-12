@@ -59,4 +59,11 @@ int main() {
   for (auto &&inner : inners) {
     cout << inner.id << endl;
   }
+
+  vector v1{1, 2, 3};
+  vector v2{9, 8, 7};
+  vector<int> v3{};
+  transform(cbegin(v1), cend(v1), cbegin(v2), back_inserter(v3), plus<>{});
+  copy(cbegin(v3), cend(v3), ostream_iterator<int>{cout, ", "});
+  cout << endl;
 }
