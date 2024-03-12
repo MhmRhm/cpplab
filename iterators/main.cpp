@@ -124,12 +124,26 @@ int main() {
     ranges::copy(names, owstream_iterator<wstring>{wcout, L", "});
     wcout << endl;
   }
-
-  try {
-    for (auto &&word : "0222 2220 0000   0002 2220   0000 2222"_t) {
-      cout << format("{0:0>4X} - {0:0>16b}", word) << endl;
+  {
+    try {
+      for (auto &&word : "0222 2220 0000   0002 2220   0000 2222"_t) {
+        cout << format("{0:0>4X} - {0:0>16b}", word) << endl;
+      }
+    } catch (const exception &e) {
+      cerr << e.what() << endl;
     }
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << endl;
+  }
+  {
+    // https://www.modernescpp.com/index.php/expression-templates/
+    vector vecA{1, 2, 3};
+    vector vecB{.1, .1, .1};
+    vector vecC{9, 8, 7};
+    vector vecX{0, 1, 10};
+
+    // Cpp 23
+    auto quadraticEquation{views::zip_transform(
+        [](auto a, auto b, auto c, auto x) { return a * x * x + b * x + c; },
+        vecA, vecB, vecC, vecX)};
+    ranges::copy(quadraticEquation, ostream_iterator<float>{cout, ", "});
   }
 }
