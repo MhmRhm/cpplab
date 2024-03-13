@@ -144,7 +144,8 @@ int main() {
     auto quadraticEquation{views::zip_transform(
         [](auto a, auto b, auto c, auto x) { return a * x * x + b * x + c; },
         vecA, vecB, vecC, vecX)};
-    ranges::copy(quadraticEquation, ostream_iterator<float>{cout, ", "});
+    // compile with gcc or msvc
+    // ranges::copy(quadraticEquation, ostream_iterator<float>{cout, ", "});
     cout << endl;
   }
 }
