@@ -11,16 +11,28 @@ template <typename T> struct CapturedData {
     return static_cast<const T *>(this)->getPayloadImp(size_bytes);
   }
 
+private:
   const uint8_t *getPayloadImpl(size_t &size_bytes) const {
     size_bytes = 0;
     return nullptr;
   }
+
+  // to make pure virtual
+  friend T;
+  CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  ~CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 };
 
 struct TS : CapturedData<TS> {
   std::array<uint64_t, 4> payload{};
   uint64_t header{};
 
+  TS() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  ~TS() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+
+  // to make private
+private:
+  friend CapturedData;
   const uint8_t *getPayloadImp(size_t &size_bytes) const {
     size_bytes = sizeof(payload);
     return reinterpret_cast<const uint8_t *>(&payload);
@@ -30,8 +42,29 @@ struct TS : CapturedData<TS> {
 struct TLP : CapturedData<TLP> {
   std::array<uint64_t, 2> payload{};
 
+  TLP() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  ~TLP() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+
+  // to make private
+private:
+  friend CapturedData;
   const uint8_t *getPayloadImp(size_t &size_bytes) const {
     size_bytes = sizeof(payload);
     return reinterpret_cast<const uint8_t *>(&payload);
   }
 };
+
+template <typename T> void printPayload(const CapturedData<T> &capture) {
+  using namespace std;
+
+  size_t size_bytes{};
+  const uint8_t *payload{capture.getPayload(size_bytes)};
+
+  span data{payload, size_bytes};
+  copy(cbegin(data), cend(data), ostream_iterator<int>{cout, ", "});
+  cout << endl;
+}
+
+template <typename T> void trash(CapturedData<T> *capture) {
+  delete static_cast<T *>(capture);
+}

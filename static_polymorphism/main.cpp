@@ -8,17 +8,6 @@
 
 #include "crtp.h"
 
-template <typename T> void printPayload(const CapturedData<T> &captureData) {
-  using namespace std;
-
-  size_t size_bytes{};
-  const uint8_t *payload{captureData.getPayload(size_bytes)};
-
-  span pyld{payload, size_bytes};
-  copy(cbegin(pyld), cend(pyld), ostream_iterator<int>{cout, ", "});
-  cout << endl;
-}
-
 int main() {
   using namespace std;
   cout << hex;
@@ -39,5 +28,11 @@ int main() {
         0xd1, 0x5a, 0xe7, 0x19, 0x0b, 0x24, 0xce, 0x05, 0x68, 0x59};
     const TLP *tlp{reinterpret_cast<const TLP *>(&data)};
     printPayload(*tlp);
+  }
+  {
+    TS *ts{new TS{}};
+    TLP *tlp{new TLP{}};
+    trash(ts);
+    trash(tlp);
   }
 }
