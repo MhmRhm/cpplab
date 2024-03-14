@@ -37,19 +37,17 @@ public:
     return data;
   }
 };
-
 template class NaiveVector<int>;
 template class NaiveVector<double>;
 
 template <typename T, typename ContainerType = std::vector<T>>
 class MatureVector final {
 public:
+  MatureVector() = delete;
   MatureVector(ContainerType &&container) noexcept
       : m_container{std::move(container)} {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
   }
-
-  MatureVector() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   MatureVector(const MatureVector &src) : m_container{src.container} {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
   }
@@ -68,27 +66,16 @@ public:
     return *this;
   }
 
-  template <typename SrcT, typename SrcContainerType>
-  MatureVector &operator=(const MatureVector<SrcT, SrcContainerType> &src) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    for (size_t i{0}; i < src.size(); i++) {
-      m_container[i] = src[i];
-    }
-    return *this;
-  }
-  template <typename SrcT, typename SrcContainerType>
-  MatureVector &operator=(MatureVector<SrcT, SrcContainerType> &&src) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    for (size_t i{0}; i < src.size(); i++) {
-      m_container[i] = std::move(src[i]);
-    }
-    return *this;
-  }
-
   size_t size() const { return m_container.size(); }
 
-  T &operator[](const size_t index) { return m_container[index]; }
-  T operator[](const size_t index) const { return m_container[index]; }
+  T &operator[](const size_t index) {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return m_container[index];
+  }
+  T operator[](const size_t index) const {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return m_container[index];
+  }
 
   const ContainerType &data() const { return m_container; }
 
@@ -103,7 +90,10 @@ public:
       : m_lhs{lhs}, m_rhs{rhs} {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
   }
-  T operator[](const size_t index) const { return m_lhs[index] + m_rhs[index]; }
+  T operator[](const size_t index) const {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    return m_lhs[index] + m_rhs[index];
+  }
   size_t size() const { return m_lhs.size(); }
 
 private:
@@ -115,6 +105,7 @@ template <typename T, typename LhsContainerType, typename RhsContainerType>
 MatureVector<T, MatureAdd<T, LhsContainerType, RhsContainerType>>
 operator+(const MatureVector<T, LhsContainerType> &lhs,
           const MatureVector<T, RhsContainerType> &rhs) {
+  std::cout << __PRETTY_FUNCTION__ << std::endl;
   return MatureVector<T, MatureAdd<T, LhsContainerType, RhsContainerType>>{
       MatureAdd<T, LhsContainerType, RhsContainerType>{lhs.data(), rhs.data()}};
 }
