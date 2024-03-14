@@ -19,7 +19,7 @@ struct Type final {
     return temp;
   }
 
-  // insertion/extraction operator
+  // Insertion/Extraction operator
   friend std::ostream &operator<<(std::ostream &os, const Type &t) {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
     os << t.value;
@@ -62,18 +62,18 @@ struct Type final {
   }
 };
 
-// raw mode
+// Raw mode
 Type operator""_t(const char *lit) {
   using namespace std;
   std::cout << __PRETTY_FUNCTION__ << std::endl;
   return Type{stoi(lit)};
 }
-// cooked mode
+// Cooked mode
 Type operator""_t(unsigned long long val) {
   std::cout << __PRETTY_FUNCTION__ << std::endl;
   return Type{int(val)};
 }
-// cooked mode string
+// Cooked mode string
 Type operator""_t(const char *str, size_t len) {
   using namespace std;
   std::cout << __PRETTY_FUNCTION__ << std::endl;

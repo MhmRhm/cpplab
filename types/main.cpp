@@ -67,7 +67,7 @@ int main() {
   array arr{1, 2, 3};
   // Cpp 20
   int *carr = new int[]{1, 2, 3};
-  // for uniform initialization in templates, see below
+  // For uniform initialization in templates, see below
 
   // opt1 contains value, *opt1 is a moved-from value
   optional<int> opt2{std::move(opt1)};

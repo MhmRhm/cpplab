@@ -12,8 +12,7 @@ You can scape these with \ for example \$
 . matches anything but new line character
 | used for alternation for example a|b
 * matches zero or more + matches one or more ? matches zero or one repetitions
-{3,} matches at least three repetitions
-they bind to one element to the left
+{3,} matches at least three repetitions and they bind to one element to the left
 ^ means anything but
 | has lowest precedence
 \d = [[:digit:]], \D = [^[:digit:]]

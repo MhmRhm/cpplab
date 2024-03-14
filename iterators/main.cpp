@@ -67,7 +67,7 @@ int main() {
     cout << endl;
 
     // https://en.cppreference.com/w/cpp/container#Iterator_invalidation
-    // invalid operation although it may work
+    // Invalid operation although it may work
     array<Inner, 3> src3{};
     copy(cbegin(src3), cend(src3), inserter(dst, pos));
     copy(cbegin(dst), cend(dst), ostream_iterator<Inner>{cout, ", "});
@@ -95,7 +95,7 @@ int main() {
     copy(cbegin(src1), cend(src1), ostream_iterator<Inner>{cout, ", "});
     cout << endl;
 
-    // projection
+    // Projection
     ranges::sort(src1, greater{}, &Inner::id);
     copy(cbegin(src1), cend(src1), ostream_iterator<Inner>{cout, ", "});
     cout << endl;
@@ -144,7 +144,7 @@ int main() {
     auto quadraticEquation{views::zip_transform(
         [](auto a, auto b, auto c, auto x) { return a * x * x + b * x + c; },
         vecA, vecB, vecC, vecX)};
-    // compile with gcc or msvc
+    // Compile with gcc or msvc
     // ranges::copy(quadraticEquation, ostream_iterator<float>{cout, ", "});
     cout << endl;
   }

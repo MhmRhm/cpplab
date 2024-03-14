@@ -8,7 +8,7 @@
 bool isUSBFile(std::string_view sv) {
   // Cpp 20
   return sv.ends_with(".usb") || sv.ends_with(".usbraw");
-  // never return string_view
+  // Never return string_view
 }
 
 int main() {

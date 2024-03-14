@@ -29,7 +29,7 @@ int main() {
 
   // Cpp 20 Designated Initializers
   // vendoeID is zero initialized
-  // must be an aggregate type
+  // Must be an aggregate type
   ROUTER_CS_0 cs0{.productID = 0xF1A7};
 
   // Cpp 17

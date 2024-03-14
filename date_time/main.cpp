@@ -46,8 +46,8 @@ int main() {
   // chrono::days oneWeek{7d};
   // chrono::day fourYear{4y};
 
-  // each clock consists of a timepoint and a duration
-  // each timepoint is associated with a clock
+  // Each clock consists of a timepoint and a duration
+  // Each timepoint is associated with a clock
   // std::chrono::steady_clock::time_point =
   // std::chrono::time_point<std::chrono::steady_clock>
   // 1979
@@ -72,7 +72,7 @@ int main() {
   chrono::year_month_day startTheSteal{2020y, chrono::November, 3d};
   chrono::year_month_day stopTheSteal{2021y / chrono::January / 6d};
   chrono::year_month_day today{
-      // what is the difference between this floor and the first one?
+      // What is the difference between this floor and the first one?
       chrono::floor<chrono::days>(chrono::system_clock::now())};
   cout << format("from {} to {}", startTheSteal, stopTheSteal) << endl;
 
@@ -83,7 +83,7 @@ int main() {
        << endl;
 
   // Cpp 20 timezone
-  // in bash run timedatectl list-timezones
+  // In bash run timedatectl list-timezones
   const auto &tzList{chrono::get_tzdb_list()};
   for (auto itr{tzList.cbegin()}; itr != tzList.cend(); advance(itr, 1)) {
     cout << format("{}", itr->current_zone()->name()) << endl;

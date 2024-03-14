@@ -5,7 +5,7 @@
 #include <numeric>
 #include <vector>
 
-// a wrapper around std::vector
+// A wrapper around std::vector
 template <typename T> class NaiveVector final : public std::vector<T> {
 public:
   using std::vector<T>::vector;

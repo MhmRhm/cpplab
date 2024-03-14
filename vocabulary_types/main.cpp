@@ -7,6 +7,7 @@
 #include <utility>
 #include <variant>
 
+// This is not CRTP
 template <typename... Ts> struct Visitor final : Ts... {
   using Ts::operator()...;
 };

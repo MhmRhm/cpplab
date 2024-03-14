@@ -6,7 +6,7 @@
 // Cpp 14 Auto Return Type
 auto factorial(int num) {
   if (num <= 1)
-    // first return
+    // First return
     return 1;
   else
     return num * factorial(num - 1);

@@ -78,8 +78,8 @@ int main() {
                  arithmeticAverage, geometricAverage)
        << endl;
 
-  // unnecessary copying
-  // Cpp 20 heterogeneous lookups
+  // Unnecessary copying
+  // Cpp 20 Heterogeneous Lookups
   struct HetroHash final {
     using is_transparent = void;
     size_t operator()(string_view sv) const { return hash<string_view>{}(sv); }
@@ -114,7 +114,7 @@ int main() {
   l3();
   cout << num0 << endl;
 
-  // lambda capture expressions
+  // Lambda Capture Expressions
   Inner inner{};
   auto l4{[p = std::move(inner)] { cout << "inner.id = " << p.id << endl; }};
   l4();

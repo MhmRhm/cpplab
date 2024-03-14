@@ -14,7 +14,7 @@ struct History final {
   static inline size_t Total{};
 
   // Cpp 20
-  // return type can be strong_ordering, partial_ordering or weak_ordering.
+  // Return type can be strong_ordering, partial_ordering or weak_ordering.
   // auto if every member supports <=>
   [[nodiscard("must use")]] auto
   operator<=>(const History &other) const = default;

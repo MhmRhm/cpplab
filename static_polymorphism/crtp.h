@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <iostream>
 
 template <typename T> struct CapturedData {
   uint64_t type{};
@@ -17,7 +18,7 @@ private:
     return nullptr;
   }
 
-  // to make pure virtual
+  // To make pure virtual
   friend T;
   CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   ~CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
@@ -30,7 +31,7 @@ struct TS : CapturedData<TS> {
   TS() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   ~TS() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 
-  // to make private
+  // To make private
 private:
   friend CapturedData;
   const uint8_t *getPayloadImp(size_t &size_bytes) const {
@@ -45,7 +46,7 @@ struct TLP : CapturedData<TLP> {
   TLP() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   ~TLP() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
 
-  // to make private
+  // To make private
 private:
   friend CapturedData;
   const uint8_t *getPayloadImp(size_t &size_bytes) const {

@@ -29,7 +29,7 @@ int main() {
   struct LeadDeveloper : Developer, Manager {
     using Developer::work;
 
-    // hides bases work
+    // Hides bases work
     void work(int hours) const {
       cout << format("Codign and having meetings for {} hours.", hours) << endl;
     }

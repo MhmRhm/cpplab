@@ -1,12 +1,12 @@
 module;
-// global module fragment
+// Global Module Fragment
 #include <cstdint>
 
 export module tlp;
 
 using namespace std;
 
-// export block
+// Export Block
 export {
   namespace USB4 {
   class PRBS final {};

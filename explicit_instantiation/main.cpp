@@ -46,7 +46,7 @@ private:
 template <typename T> struct Decorator final {
   Decorator(T t) {}
 };
-// user defined class template argument deduction
+// User-defined Class Template Argument Deduction
 // Decorator(const char *) -> Decorator<std::string>;
 
 template <typename T> struct Countable;
@@ -72,7 +72,7 @@ int main() {
   using namespace std;
   Wrapper<int, vector> wrapper;
 
-  // selective instantiation
+  // Selective Instantiation
   wrapper.include(10);
 
   // CTAD
@@ -85,6 +85,6 @@ int main() {
   isEqual(3.14, 3.14);
   isEqual(3, 3);
 }
-// explicit template instantiations
+// Explicit Template Instantiations
 template class Wrapper<int, std::deque>;
 // template class Wrapper<int, std::vector>;

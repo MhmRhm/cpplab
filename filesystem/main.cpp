@@ -36,7 +36,7 @@ int main() {
   directory_entry entry = directory_entry{address.parent_path()};
   cout << format("entry.is_directory(): {}", entry.is_directory()) << endl;
   cout << format("entry.exists(): {}", entry.exists()) << endl;
-  create_directories(entry.path()); // recursive
+  create_directories(entry.path()); // Recursive
   entry.refresh();
   cout << format("entry.exists(): {}", entry.exists()) << endl;
   cout << format("space(): {} GB", space(R"(/)").available / 1024 / 1024 / 1024)

@@ -29,7 +29,7 @@ int main() {
   cout << format("IPSCount = {} UPSCount = {}", IPSCount, UPSCount) << endl;
 
   ConfigurationSpace cs{};
-  // reachable but not visible
+  // Reachable but not visible
   cs.linkCS.DW0 = 0x00'00'00'ff;
   // CSLink linkCS{};
   // decltype(cs.linkCS) linkCS{};
