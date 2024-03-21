@@ -31,6 +31,7 @@ int main() {
   }
   {
     struct Plotter1 {
+      uint64_t dummy{};
       void operator()(int num) const {
         cout << __PRETTY_FUNCTION__ << endl;
         cout << format("{:_^#20X}", num) << endl;

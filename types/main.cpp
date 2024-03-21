@@ -65,8 +65,9 @@ int main() {
   optional<int> opt1{};
   array<SomeStruct, 3> zarr{};
   array arr{1, 2, 3};
+  int lcarr[8]{};
   // Cpp 20
-  int *carr = new int[]{1, 2, 3};
+  int *fcarr = new int[]{1, 2, 3};
   // For uniform initialization in templates, see below
 
   // opt1 contains value, *opt1 is a moved-from value
