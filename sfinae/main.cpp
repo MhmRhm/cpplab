@@ -1,4 +1,5 @@
 #include <format>
+#include <forward_list>
 #include <iostream>
 
 void ovSet1(int, double) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
@@ -18,6 +19,14 @@ template <typename T> void ovSet3(T, T *) {
   std::cout << __PRETTY_FUNCTION__ << std::endl;
 }
 
+template <typename T>
+void simpleSFINAE(const T &t, typename T::iterator itr = {}) {
+  using namespace std;
+  for (auto itr{begin(t)}; itr != end(t); ++itr) {
+    cout << *itr << endl;
+  }
+};
+
 int main() {
   using namespace std;
 
@@ -30,4 +39,8 @@ int main() {
 
   short var2{};
   // ovSet3(var2, &var1);
+
+  forward_list list1{1, 2, 3};
+  simpleSFINAE(list1);
+  // simpleSFINAE(var1);
 }
