@@ -52,10 +52,14 @@ template <typename T> struct Decorator final {
 template <typename T> struct Countable;
 template <typename T>
 Countable<T> operator+(const Countable<T> &lhs, const Countable<T> &rhs) {
-  return Countable{lhs.t + rhs.t};
+  return Countable{lhs.m_t + rhs.m_t};
 }
-template <typename T> struct Countable final {
-  T t{};
+template <typename T> class Countable final {
+  T m_t{};
+
+public:
+  Countable(T &&t) : m_t{std::forward<T>(t)} {}
+  const T &get() { return m_t; }
   friend Countable operator+(const Countable &lhs, const Countable &rhs);
 };
 
@@ -80,7 +84,10 @@ int main() {
   cout << type_name<decltype(decorator)>() << endl;
 
   Countable c1{1}, c2{2};
-  // cout << (c1 + c2).t << endl;
+  // Friend function templates of class templates
+  // cout << (c1 + c2).get() << endl;
+  // Template Friend Factory
+  // cout << (c1 + 5).get() << endl;
 
   isEqual(3.14, 3.14);
   isEqual(3, 3);
