@@ -31,16 +31,19 @@ public:
 // multi-level drived class cloning
 class Base {
 public:
-  virtual ~Base() = default;
+  virtual ~Base() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   Base *clone() const;
 };
 class ClonerBase {
 public:
-  virtual ~ClonerBase() = default;
+  virtual ~ClonerBase() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
   virtual Base *clone() const = 0;
 };
 Base *Base::clone() const {
-  return dynamic_cast<const ClonerBase *>(this)->clone();
+  std::cout << "in " << __PRETTY_FUNCTION__ << std::endl;
+  auto clone{dynamic_cast<const ClonerBase *>(this)->clone()};
+  std::cout << "out " << __PRETTY_FUNCTION__ << std::endl;
+  return clone;
 }
 template <typename Drived> class MultiLevelCloner : public ClonerBase {
 public:
