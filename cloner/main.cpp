@@ -76,6 +76,6 @@ int main() {
 
   basePtr.reset(new OverDrived{});
   // The following will result in a `Segmentation fault (core dumped)`
-  // https://github.com/PacktPublishing/Hands-On-Design-Patterns-with-CPP
+  // https://github.com/PacktPublishing/Hands-On-Design-Patterns-with-CPP/issues/3#issue-2212848879
   unique_ptr<Base> odrPtr{basePtr->clone()};
 }
