@@ -12,8 +12,16 @@ int main() {
   Stream s1{};
   s1.process(&data[0]);
   // s1.interrupt(&data[0]);
+  cout << endl << endl;
 
-  Stream<NormalTrafficProcessor, FlushOnInterruption> s2{};
+  Stream<NormalTrafficProcessor<uint8_t>, FlushOnInterruption> s2{};
   s2.process(&data[0]);
   s2.interrupt(&data[0]);
+  cout << endl << endl;
+
+  decltype(s2)::ChangeProcessorUnit<uint16_t>::ChangeFormatter<
+      AdvancedFormatter>
+      s3{};
+  s3.process(reinterpret_cast<uint16_t *>(&data[0]));
+  s3.interrupt(reinterpret_cast<uint16_t *>(&data[0]));
 }
