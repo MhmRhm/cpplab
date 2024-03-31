@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <iostream>
 
+#include "improved_policies.h"
 #include "policies.h"
 
 int main() {
@@ -24,4 +25,22 @@ int main() {
       s3{};
   s3.process(reinterpret_cast<uint16_t *>(&data[0]));
   s3.interrupt(reinterpret_cast<uint16_t *>(&data[0]));
+
+  CustomType<int, Processor, Formatter, InterruptionManager> ct3{};
+  ct3.process();
+  ct3.format();
+  ct3.interrupt();
+
+  CustomType<int, InterruptionManager, Processor> ct2{};
+  ct2.interrupt();
+  ct2.process();
+  // ct2.format();
+
+  CustomType<int, Formatter> ct1{};
+  ct1.format();
+  // ct1.process();
+  // ct1.interrupt();
+
+  CustomType<int, Serializer> ct0{};
+  cout << ct0 << endl;
 }
