@@ -15,22 +15,19 @@ sudo apt-get install libtbb-dev
 sudo apt-get remove cmake
 sudo apt-get autoremove
 
-tar -xvpf cmake-3.28.3.tar.gz
-cd cmake-3.28.3/
-mkdir build
-cd build/
-
-../configure
-gmake -j $(nproc)
-sudo gmake install
+git clone --depth=1 --recurse-submodules https://gitlab.kitware.com/cmake/cmake.git
+mkdir cmake-build
+cd cmake-build
+../cmake/bootstrap --parallel=$(nproc) && make && sudo make install
 ctest --rerun-failed --output-on-failure
 
-tree . -L 1
+tree .. -L 1
 # .
-# ├── cmake-3.28.3
+# ├── cmake
+# ├── cmake-build
 # └── cpplab
 
-cd ../../cpplab
+cd ../cpplab
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/clang-17 -DCMAKE_CXX_COMPILER=/usr/bin/clang++-17 -B build -G Ninja
 cmake --build build/ -j $(nproc)
 ./build/modules/modules
