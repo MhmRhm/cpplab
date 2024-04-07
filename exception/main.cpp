@@ -10,23 +10,30 @@
 
 // clang-format off
 struct Good final {
-  Good() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  ~Good() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Good() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+  ~Good() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 struct Bad final {
   Good good{};
-  Bad() try : good{Good{}} {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+  Bad() try : good{Good{}}
+  {
+    std::cout << std::source_location::current().function_name() << std::endl;
     throw std::runtime_error{"Bad Exception"};
   }
-  catch (const std::exception& e) {
+  catch (const std::exception &e) {
     std::cerr << e.what() << std::endl;
   }
   catch (...) {
     // cleanup
     throw;
   }
-  ~Bad() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  ~Bad() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 // clang-format on
 

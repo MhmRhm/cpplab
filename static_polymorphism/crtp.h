@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <iostream>
+#include <source_location>
 
 template <typename T> struct CapturedData {
   uint64_t type{};
@@ -20,16 +21,24 @@ private:
 
   // To make pure virtual
   friend T;
-  CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  ~CapturedData() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  CapturedData() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+  ~CapturedData() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 
 struct TS : CapturedData<TS> {
   std::array<uint64_t, 4> payload{};
   uint64_t header{};
 
-  TS() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  ~TS() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  TS() : CapturedData{} {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+  ~TS() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 
   // To make private
 private:
@@ -43,8 +52,12 @@ private:
 struct TLP : CapturedData<TLP> {
   std::array<uint64_t, 2> payload{};
 
-  TLP() : CapturedData{} { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-  ~TLP() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  TLP() : CapturedData{} {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+  ~TLP() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 
   // To make private
 private:

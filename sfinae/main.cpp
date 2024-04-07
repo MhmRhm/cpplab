@@ -3,25 +3,32 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <source_location>
 
 #include "sfinae.h"
 
-void ovSet1(int, double) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
-void ovSet1(double, int) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+void ovSet1(int, double) {
+  std::cout << std::source_location::current().function_name() << std::endl;
+}
+void ovSet1(double, int) {
+  std::cout << std::source_location::current().function_name() << std::endl;
+}
 
 template <typename T> void ovSet2(T *) /*= delete*/ {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
 }
 template <typename T> void ovSet2(T) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
 }
 template <typename... Args> void ovSet2(Args...) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
 }
-void ovSet2(...) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+void ovSet2(...) {
+  std::cout << std::source_location::current().function_name() << std::endl;
+}
 
 template <typename T> void ovSet3(T, T *) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
 }
 
 int main() {

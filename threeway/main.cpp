@@ -1,6 +1,7 @@
 #include <compare>
 #include <cstdint>
 #include <iostream>
+#include <source_location>
 #include <string>
 
 struct History final {
@@ -24,7 +25,7 @@ struct History final {
 };
 
 [[deprecated("use func(int &a, int b) instead")]] void func() {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
 };
 
 // Cpp 20

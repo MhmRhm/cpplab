@@ -1,6 +1,7 @@
 #include <format>
 #include <iostream>
 #include <memory>
+#include <source_location>
 
 #include "type_erasure.h"
 
@@ -9,13 +10,13 @@ int main() {
 
   struct Deleter1 {
     void operator()(int *ptr) {
-      cout << __PRETTY_FUNCTION__ << endl;
+      cout << std::source_location::current().function_name() << endl;
       delete ptr;
     }
   };
   struct Deleter2 {
     void operator()(int *ptr) {
-      cout << __PRETTY_FUNCTION__ << endl;
+      cout << std::source_location::current().function_name() << endl;
       delete ptr;
     }
   };
@@ -33,13 +34,13 @@ int main() {
     struct Plotter1 {
       uint64_t dummy{};
       void operator()(int num) const {
-        cout << __PRETTY_FUNCTION__ << endl;
+        cout << std::source_location::current().function_name() << endl;
         cout << format("{:_^#20X}", num) << endl;
       }
     };
     struct Plotter2 {
       void operator()(int num) const {
-        cout << __PRETTY_FUNCTION__ << endl;
+        cout << std::source_location::current().function_name() << endl;
         cout << format("{:_^#20B}", num) << endl;
       }
     };

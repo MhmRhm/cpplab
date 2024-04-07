@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <source_location>
 
 // single-level drived class cloning
 class Parent {
@@ -10,7 +11,7 @@ public:
 template <typename Child> class OneLevelCloner : public Parent {
 public:
   virtual std::unique_ptr<Parent> clone() const override {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return std::unique_ptr<Parent>{
         new Child{*static_cast<const Child *>(this)}};
   }
@@ -18,50 +19,60 @@ public:
 class Child : public OneLevelCloner<Child> {
 public:
   Child() = default;
-  Child(const Child &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Child(const Child &) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 class GrandChild : public Child {
 public:
   GrandChild() = default;
   GrandChild(const GrandChild &) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
   }
 };
 
 // multi-level drived class cloning
 class Base {
 public:
-  virtual ~Base() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  virtual ~Base() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
   Base *clone() const;
 };
 class ClonerBase {
 public:
-  virtual ~ClonerBase() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  virtual ~ClonerBase() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
   virtual Base *clone() const = 0;
 };
 Base *Base::clone() const {
-  std::cout << "in " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << "in " << std::source_location::current().function_name()
+            << std::endl;
   auto clone{dynamic_cast<const ClonerBase *>(this)->clone()};
-  std::cout << "out " << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << "out " << std::source_location::current().function_name()
+            << std::endl;
   return clone;
 }
 template <typename Drived> class MultiLevelCloner : public ClonerBase {
 public:
   virtual Base *clone() const override {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return new Drived{*static_cast<const Drived *>(this)};
   }
 };
 class Drived : public Base, public MultiLevelCloner<Drived> {
 public:
   Drived() = default;
-  Drived(const Drived &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  Drived(const Drived &) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 class OverDrived : public Drived, public MultiLevelCloner<OverDrived> {
 public:
   OverDrived() = default;
   OverDrived(const OverDrived &) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
   }
 };
 

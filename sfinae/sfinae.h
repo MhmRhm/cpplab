@@ -1,5 +1,6 @@
 #pragma once
 
+#include <source_location>
 #include <type_traits>
 
 // simple SFINAE
@@ -25,14 +26,14 @@ template <typename... Args> auto haveLimits(Args...) -> std::false_type {}
 template <typename T> struct SpecializedFind<T, true, false> {
   virtual ~SpecializedFind() = default;
   static const auto find(const T &t, const typename T::key_type &k) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return t.find(k);
   }
 };
 template <typename T> struct SpecializedFind<T, false, true> {
   virtual ~SpecializedFind() = default;
   static const auto find(const T &t, const typename T::value_type &v) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return std::find(t.cbegin(), t.cend(), v);
   }
 };

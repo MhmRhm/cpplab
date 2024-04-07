@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <source_location>
 
 template <typename T, template <typename, typename> class... Policies>
 class CustomType final : public Policies<T, CustomType<T, Policies...>>... {
@@ -13,7 +14,7 @@ public:
 template <typename T, typename CustomType> class Processor {
 public:
   void process() {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     CustomType *ct{static_cast<CustomType *>(this)};
   }
 };
@@ -21,7 +22,7 @@ public:
 template <typename T, typename CustomType> class Formatter {
 public:
   void format() {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     CustomType *ct{static_cast<CustomType *>(this)};
   }
 };
@@ -29,7 +30,7 @@ public:
 template <typename T, typename CustomType> class InterruptionManager {
 public:
   void interrupt() {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     CustomType *ct{static_cast<CustomType *>(this)};
   }
 };
@@ -37,7 +38,7 @@ public:
 template <typename T, typename CustomType> class Serializer {
 public:
   friend std::ostream &operator<<(std::ostream &out, const CustomType &ct) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     out << ct.getValue();
     return out;
   }

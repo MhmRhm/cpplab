@@ -3,6 +3,7 @@
 #include <deque>
 #include <iostream>
 #include <limits>
+#include <source_location>
 #include <string>
 #include <vector>
 
@@ -64,11 +65,11 @@ public:
 };
 
 template <std::floating_point T> bool isEqual(const T &lhs, const T &rhs) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
   return std::fabs(lhs - rhs) < std::numeric_limits<T>::min();
 }
 template <std::integral T> bool isEqual(const T &lhs, const T &rhs) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
   return lhs == rhs;
 }
 

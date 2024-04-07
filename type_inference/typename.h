@@ -1,19 +1,20 @@
 #pragma once
 
+#include <source_location>
 #include <string_view>
 
 template <typename T> constexpr auto type_name() {
   std::string_view name, prefix, suffix;
 #ifdef __clang__
-  name = __PRETTY_FUNCTION__;
+  name = std::source_location::current().function_name();
   prefix = "auto type_name() [T = ";
   suffix = "]";
 #elif defined(__GNUC__)
-  name = __PRETTY_FUNCTION__;
+  name = std::source_location::current().function_name();
   prefix = "constexpr auto type_name() [with T = ";
   suffix = "]";
 #elif defined(_MSC_VER)
-  name = __FUNCSIG__;
+  name = std::source_location::current().function_name();
   prefix = "auto __cdecl type_name<";
   suffix = ">(void)";
 #endif

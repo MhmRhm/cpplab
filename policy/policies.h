@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <source_location>
 #include <type_traits>
 
 class NoInterruption {
@@ -14,7 +15,7 @@ template <typename Unit> class PassThroughProcessor {
 public:
   virtual ~PassThroughProcessor() = default;
   bool process(Unit *data) const {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return true;
   }
 
@@ -23,7 +24,9 @@ public:
 
 template <typename Stream> class BasicFormatter final {
   friend Stream;
-  void format(const Stream &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  void format(const Stream &) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 
 template <typename Processor = PassThroughProcessor<uint8_t>,
@@ -39,7 +42,7 @@ public:
   template <typename T>
     requires InterruptManager::CanHandleInterrupt
   void interrupt(T *data) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     InterruptManager::interrupt(data);
     m_formatter.format(*this);
   }
@@ -58,7 +61,7 @@ public:
   virtual ~FlushOnInterruption() = default;
   static constexpr bool CanHandleInterrupt{true};
   template <typename T> bool interrupt(T *data) const {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return true;
   }
 };
@@ -67,7 +70,7 @@ template <typename Unit> class NormalTrafficProcessor {
 public:
   virtual ~NormalTrafficProcessor() = default;
   bool process(Unit *data) const {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return true;
   }
 
@@ -77,5 +80,7 @@ public:
 
 template <typename Stream> class AdvancedFormatter final {
   friend Stream;
-  void format(const Stream &) { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  void format(const Stream &) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };

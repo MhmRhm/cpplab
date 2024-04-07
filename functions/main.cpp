@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <numeric>
+#include <source_location>
 #include <string_view>
 #include <unordered_map>
 #include <vector>
@@ -16,16 +17,18 @@ int num0{10};
 }
 
 int *f1(int *) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  std::cout << std::source_location::current().function_name() << std::endl;
   return nullptr;
 };
 
 struct C1 final {
   int const *const m1(int const *const) const {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << std::source_location::current().function_name() << std::endl;
     return nullptr;
   }
-  void m2() { std::cout << __PRETTY_FUNCTION__ << std::endl; }
+  void m2() {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
 };
 
 int main() {

@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <source_location>
 
 template <typename T> struct Plotable final {
   class PlotterBase {
@@ -30,7 +31,8 @@ template <typename T> struct Plotable final {
   void destroy_plotter() {
     using namespace std;
     if (is_lb_optimized()) {
-      cout << __PRETTY_FUNCTION__ << " was optimized." << endl;
+      cout << std::source_location::current().function_name()
+           << " was optimized." << endl;
       std::destroy_at(m_p);
     } else {
       delete m_p;

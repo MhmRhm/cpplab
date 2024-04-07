@@ -1,5 +1,6 @@
 #include <format>
 #include <iostream>
+#include <source_location>
 #include <vector>
 
 #include "inner_outer.h"
@@ -12,13 +13,19 @@ public:
   // If no user-declared constructors of any kind are provided for a class type,
   // the compiler will always declare a default constructor.
   Vocal(int id) : m_id{id}, m_inner{Inner{}} {
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
   };
 
   // If no user-defined copy constructors are provided for a class type, the
   // compiler will always declare a copy constructor.
   Vocal(const Vocal &src) : m_id{src.m_id}, m_inner{src.m_inner} {
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
   }
 
   // If no user-defined copy assignment operators are provided for a class type,
@@ -27,7 +34,10 @@ public:
     Vocal temp{rhs};
     swap(*this, temp);
 
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
 
     return *this;
   }
@@ -42,7 +52,10 @@ public:
   Vocal(Vocal &&src) noexcept {
     swap(*this, src);
 
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
   }
 
   // If no user-defined move assignment operators are provided for a class type,
@@ -55,7 +68,10 @@ public:
   Vocal &operator=(Vocal &&rhs) noexcept {
     swap(*this, rhs);
 
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
 
     return *this;
   }
@@ -67,7 +83,10 @@ public:
   }
 
   virtual ~Vocal() /*= default;*/ {
-    std::cout << std::format("{}, {}", __PRETTY_FUNCTION__, m_id) << std::endl;
+    std::cout << std::format("{}, {}",
+                             std::source_location::current().function_name(),
+                             m_id)
+              << std::endl;
   }
 
   virtual void method() final {}
