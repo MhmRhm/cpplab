@@ -1,3 +1,12 @@
+How you can run the code anywhere:
+```bash
+cd cpplab/
+docker build -t cpplab:latest .
+docker run -it cpplab:latest
+./build/modules/modules
+```
+Dockerfile used to create the image is basically same as the following section.
+
 How I run the code on Linux:
 - Setup an Ubuntu Server 23.10
 - Install clang-17
