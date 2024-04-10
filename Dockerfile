@@ -11,11 +11,8 @@ RUN git clone --depth=1 --recurse-submodules \
     https://gitlab.kitware.com/cmake/cmake.git
 RUN mkdir cmake-build && mkdir cpplab
 WORKDIR /src/cmake-build
-RUN ../cmake/bootstrap --parallel=$(nproc) && make && make install
-# RUN ctest --rerun-failed --output-on-failure
-WORKDIR /src
-RUN rm -rf cmake-build/ cmake/
-
+RUN ../cmake/bootstrap --parallel=$(nproc) && make && make install && \
+    cd .. && rm -rf cmake-build/ cmake/
 
 COPY . /src/cpplab
 WORKDIR /src/cpplab
