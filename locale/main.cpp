@@ -57,10 +57,10 @@ int main() {
   cout << use_facet<moneypunct<char>>(cout.getloc()).frac_digits() << endl;
 
   // cat /usr/share/locale/de/LC_MESSAGES/debconf.mo
-  locale deLocale{"de_DE.UTF-8"};
+  locale deLocale{"ms_MY.UTF-8"};
   cout.imbue(deLocale);
   auto &facet = use_facet<messages<char>>(deLocale);
-  auto catalog = facet.open("debconf", deLocale);
+  auto catalog = facet.open("locale_demo", deLocale);
   cout << facet.get(catalog, 0, 0, "Really quit configuration?") << endl
        << facet.get(catalog, 0, 0, "yes") << endl
        << facet.get(catalog, 0, 0, "no") << endl;
