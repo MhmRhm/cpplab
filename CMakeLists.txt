@@ -4,11 +4,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
 include(Format)
 include(Benchmark)
 
-project(procpp VERSION 0.0.1 LANGUAGES CXX)
+if(UNIX)
+	Format(.)
+endif(UNIX)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED YES)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(procpp VERSION 0.0.1 LANGUAGES CXX)
 
 add_subdirectory(bm_placement_new)
 add_subdirectory(namespaces)

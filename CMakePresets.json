@@ -1,0 +1,311 @@
+{
+	"version": 6,
+	"configurePresets": [
+		{
+			"name": "linux-default-debug",
+			"displayName": "Linux Debug",
+			"description": "Sets compilers, build and install directory, debug build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"generator": "Ninja",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "-Wextra;-Wall;-Wpedantic",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "-O0"
+			}
+		},
+		{
+			"name": "linux-default-release",
+			"displayName": "Linux Release",
+			"description": "Sets compilers, build and install directory, release build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"generator": "Ninja",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "-Wextra;-Wall;-Wpedantic",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "-O3"
+			}
+		},
+		{
+			"name": "windows-default-debug",
+			"displayName": "Windows Debug",
+			"description": "Sets compilers, build and install directory, debug build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "cl.exe",
+				"CMAKE_CXX_COMPILER": "cl.exe",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "/W4;/Wall;/EHsc",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Od"
+			}
+		},
+		{
+			"name": "windows-default-release",
+			"displayName": "Windows Release",
+			"description": "Sets compilers, build and install directory, release build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "cl.exe",
+				"CMAKE_CXX_COMPILER": "cl.exe",
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "/W4;/Wall;/EHsc",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Ox"
+			}
+		},
+		{
+			"name": "mac-default-debug",
+			"displayName": "Mac Debug",
+			"description": "Sets compilers, build and install directory, debug build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Darwin"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "-Wextra;-Wall;-Wpedantic",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "-O0"
+			}
+		},
+		{
+			"name": "mac-default-release",
+			"displayName": "Mac Release",
+			"description": "Sets compilers, build and install directory, release build type",
+			"binaryDir": "${sourceDir}/../${sourceDirName}-build-${presetName}",
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Darwin"
+			},
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_CXX_STANDARD": "23",
+				"CMAKE_CXX_STANDARD_REQUIRED": "YES",
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+				"DEFAULT_CXX_COMPILE_FLAGS": "-Wextra;-Wall;-Wpedantic",
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "-O3"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "linux-default-debug",
+			"jobs": 10,
+			"displayName": "Linux Debug",
+			"description": "debug build type",
+			"configurePreset": "linux-default-debug",
+			"configuration": "Debug"
+		},
+		{
+			"name": "linux-default-release",
+			"jobs": 10,
+			"displayName": "Linux Release",
+			"description": "release build type",
+			"configurePreset": "linux-default-release",
+			"configuration": "Release"
+		},
+		{
+			"name": "windows-default-debug",
+			"jobs": 10,
+			"displayName": "Windows Debug",
+			"description": "debug build type",
+			"configurePreset": "windows-default-debug",
+			"configuration": "Debug"
+		},
+		{
+			"name": "windows-default-release",
+			"jobs": 10,
+			"displayName": "Windows Release",
+			"description": "release build type",
+			"configurePreset": "windows-default-release",
+			"configuration": "Release"
+		},
+		{
+			"name": "mac-default-debug",
+			"jobs": 10,
+			"displayName": "Mac Debug",
+			"description": "debug build type",
+			"configurePreset": "mac-default-debug",
+			"configuration": "Debug"
+		},
+		{
+			"name": "mac-default-release",
+			"jobs": 10,
+			"displayName": "Mac Release",
+			"description": "release build type",
+			"configurePreset": "mac-default-release",
+			"configuration": "Release"
+		},
+		{
+			"name": "linux-format-debug",
+			"targets": ["format"],
+			"configurePreset": "linux-default-debug"
+		},
+		{
+			"name": "linux-format-release",
+			"targets": ["format"],
+			"configurePreset": "linux-default-release"
+		},
+		{
+			"name": "mac-format-debug",
+			"targets": ["format"],
+			"configurePreset": "mac-default-debug"
+		},
+		{
+			"name": "mac-format-release",
+			"targets": ["format"],
+			"configurePreset": "mac-default-release"
+		}
+	],
+	"workflowPresets": [
+		{
+			"name": "linux-default-debug",
+			"displayName": "Linux Debug",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "linux-default-debug"
+				},
+				{
+					"type": "build",
+					"name": "linux-format-debug"
+				},
+				{
+					"type": "build",
+					"name": "linux-default-debug"
+				}
+			]
+		},
+		{
+			"name": "linux-default-release",
+			"displayName": "Linux Release",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "linux-default-release"
+				},
+				{
+					"type": "build",
+					"name": "linux-format-release"
+				},
+				{
+					"type": "build",
+					"name": "linux-default-release"
+				}
+			]
+		},
+		{
+			"name": "windows-default-debug",
+			"displayName": "Windows Debug",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "windows-default-debug"
+				},
+				{
+					"type": "build",
+					"name": "windows-default-debug"
+				}
+			]
+		},
+		{
+			"name": "windows-default-release",
+			"displayName": "Windows Release",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "windows-default-release"
+				},
+				{
+					"type": "build",
+					"name": "windows-default-release"
+				}
+			]
+		},
+		{
+			"name": "mac-default-debug",
+			"displayName": "Mac Debug",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "mac-default-debug"
+				},
+				{
+					"type": "build",
+					"name": "mac-format-debug"
+				},
+				{
+					"type": "build",
+					"name": "mac-default-debug"
+				}
+			]
+		},
+		{
+			"name": "mac-default-release",
+			"displayName": "Mac Release",
+			"steps": [
+				{
+					"type": "configure",
+					"name": "mac-default-release"
+				},
+				{
+					"type": "build",
+					"name": "mac-format-release"
+				},
+				{
+					"type": "build",
+					"name": "mac-default-release"
+				}
+			]
+		}
+	]
+}
