@@ -66,7 +66,8 @@
 				"CMAKE_CXX_EXTENSIONS": "OFF",
 				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
 				"DEFAULT_CXX_COMPILE_FLAGS": "/W4;/Wall;/EHsc",
-				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Od"
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Od",
+				"CLANG-FORMAT_INSTALL_DIR": "C:/Program Files/LLVM/bin"
 			}
 		},
 		{
@@ -88,7 +89,8 @@
 				"CMAKE_CXX_EXTENSIONS": "OFF",
 				"CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
 				"DEFAULT_CXX_COMPILE_FLAGS": "/W4;/Wall;/EHsc",
-				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Ox"
+				"DEFAULT_CXX_OPTIMIZE_FLAG": "/Ox",
+				"CLANG-FORMAT_INSTALL_DIR": "C:/Program Files/LLVM/bin"
 			}
 		},
 		{
@@ -196,6 +198,16 @@
 			"configurePreset": "linux-default-release"
 		},
 		{
+			"name": "windows-format-debug",
+			"targets": ["format"],
+			"configurePreset": "windows-default-debug"
+		},
+		{
+			"name": "windows-format-release",
+			"targets": ["format"],
+			"configurePreset": "windows-default-release"
+		},
+		{
 			"name": "mac-format-debug",
 			"targets": ["format"],
 			"configurePreset": "mac-default-debug"
@@ -253,6 +265,10 @@
 				},
 				{
 					"type": "build",
+					"name": "windows-format-debug"
+				},
+				{
+					"type": "build",
 					"name": "windows-default-debug"
 				}
 			]
@@ -264,6 +280,10 @@
 				{
 					"type": "configure",
 					"name": "windows-default-release"
+				},
+				{
+					"type": "build",
+					"name": "windows-format-release"
 				},
 				{
 					"type": "build",

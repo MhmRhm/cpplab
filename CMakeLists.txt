@@ -4,9 +4,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
 include(Format)
 include(Benchmark)
 
-if(UNIX)
-	Format(.)
-endif(UNIX)
+Format(.)
 
 project(procpp VERSION 0.0.1 LANGUAGES CXX)
 

@@ -97,7 +97,7 @@ int main() {
     struct Person {
       string firstName{};
       string lastName{};
-      auto operator<=>(const Person &other) {
+      auto operator<=>(const Person &other) const {
         return tie(firstName, lastName) <=>
                tie(other.firstName, other.lastName);
       }

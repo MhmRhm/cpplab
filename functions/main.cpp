@@ -100,13 +100,13 @@ int main() {
   }
 
   int num1{100}, num2{1'000};
-  auto l1{[num1] mutable noexcept -> void { num1 *= 2; }};
+  auto l1{[num1]() mutable noexcept -> void { num1 *= 2; }};
   l1();
   cout << num1 << endl;
 
   // Cpp 20
   // [=] does not capture `this`. Instead use [=, this].
-  auto l2{[=, &num1] mutable {
+  auto l2{[=, &num1]() mutable {
     num1 *= 2;
     num2 *= 2;
   }};
