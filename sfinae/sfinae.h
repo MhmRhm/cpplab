@@ -19,8 +19,8 @@ auto haveFind(const T &) -> decltype(T{}.find({}), std::true_type{}) {}
 template <typename... Args> auto haveFind(Args...) -> std::false_type {}
 
 template <typename T>
-auto haveLimits(const T &) -> decltype(T{}.cbegin(), T{}.cend(),
-                                       std::true_type{}) {}
+auto haveLimits(const T &)
+    -> decltype(T{}.cbegin(), T{}.cend(), std::true_type{}) {}
 template <typename... Args> auto haveLimits(Args...) -> std::false_type {}
 
 template <typename T> struct SpecializedFind<T, true, false> {

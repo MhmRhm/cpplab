@@ -33,8 +33,9 @@
 //  }
 
 template <typename Element,
-          template <typename T, typename Allocator = std::allocator<T>>
-          class Container = std::deque>
+          template <typename T,
+                    typename Allocator = std::allocator<T>> class Container =
+              std::deque>
 class Wrapper final {
 public:
   void include(Element &&t) { container.push_back(std::forward<Element>(t)); }
