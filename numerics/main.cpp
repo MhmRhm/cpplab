@@ -34,4 +34,9 @@ int main() {
                  100 - 100 * normalDistributionProbability(
                                  numeric_limits<double>::lowest(), 3))
        << endl;
+
+  cout << format("PI = {0:.{1}f}", numbers::pi_v<long double>,
+                 numeric_limits<long double>::digits10 - 1)
+       << endl;
+  // PI = 3.14159265358979323846264338327950
 }
