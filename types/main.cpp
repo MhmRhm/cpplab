@@ -7,6 +7,8 @@
 #include <string>
 #include <typeinfo>
 
+#include "../type_inference/typename.h"
+
 int main() {
   using namespace std;
 
@@ -29,6 +31,12 @@ int main() {
   // Cpp 17
   byte h{0xff};
   cout << string{typeid(h).name()} << endl;
+
+  int *ptr_to_int{};
+  const auto const_ptr_to_int{ptr_to_int};
+  const auto *ptr_to_const_int{ptr_to_int};
+  std::cout << type_name<decltype(const_ptr_to_int)>() << std::endl;
+  std::cout << type_name<decltype(ptr_to_const_int)>() << std::endl;
 
   // Cpp 20
   const char8_t *utf8{u8R"(到底是怎麼回事？)"};
@@ -55,23 +63,23 @@ int main() {
   };
 
   // Cpp 98
-  SomeStruct data1{0};
-  SomeClass data2(0);
+  [[maybe_unused]] SomeStruct data1{0};
+  [[maybe_unused]] SomeClass data2(0);
 
   // Cpp 11 uniform initialization
-  SomeStruct data3{0};
-  SomeClass data4{0};
-  void *ptr{};
-  optional<int> opt1{};
-  array<SomeStruct, 3> zarr{};
-  array arr{1, 2, 3};
-  int lcarr[8]{};
+  [[maybe_unused]] SomeStruct data3{0};
+  [[maybe_unused]] SomeClass data4{0};
+  [[maybe_unused]] void *ptr{};
+  [[maybe_unused]] optional<int> opt1{};
+  [[maybe_unused]] array<SomeStruct, 3> zarr{};
+  [[maybe_unused]] array arr{1, 2, 3};
+  [[maybe_unused]] int stack_arr[8]{};
   // Cpp 20
-  int *fcarr = new int[]{1, 2, 3};
+  [[maybe_unused]] int *fcarr = new int[]{1, 2, 3};
   // For uniform initialization in templates, see below
 
   // opt1 contains value, *opt1 is a moved-from value
-  optional<int> opt2{std::move(opt1)};
+  [[maybe_unused]] optional<int> opt2{std::move(opt1)};
 }
 
 template <typename T> class AnotherClass final {
