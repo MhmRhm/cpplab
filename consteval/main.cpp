@@ -13,4 +13,8 @@ int main() {
 
   constexpr double symbols3{4};
   cout << symbolsTimeNs(symbols3) << endl;
+
+  // 'consteval' is not permitted on the declaration of a variable or static
+  // data member
+  // consteval double symbols4{4};
 }
