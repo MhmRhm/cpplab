@@ -1,6 +1,7 @@
 #include <format>
 #include <iomanip>
 #include <iostream>
+#include <locale>
 #include <string>
 
 int main() {
@@ -104,5 +105,11 @@ int main() {
                  "\tthen {{0:^{{1}}s}} shows |{0:^{1}s}|",
                  text, text.size() + 10)
        << endl
+       << endl;
+
+  locale::global(locale{"en_US.UTF-8"});
+  cout << format("For type and locale{{\"en_US.UTF-8\"}}, if num = {0}\n"
+                 "\tthen {{:L}} shows   |{0:L}|",
+                 1'000'000.0001)
        << endl;
 }
