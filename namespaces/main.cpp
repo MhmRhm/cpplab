@@ -25,6 +25,12 @@ Type type{};
 std::ostream &operator<<(std::ostream &out, Type) { return out; }
 } // namespace
 
+namespace outer {
+inline namespace inner {
+using std::literals::string_literals::operator""s;
+} // namespace inner
+} // namespace outer
+
 enum class Seasons : int {
   Spring = 0,
   Summer,
@@ -33,7 +39,12 @@ enum class Seasons : int {
 };
 
 int main() {
-  using namespace std;
+  using std::cout, std::endl;
+
+  {
+    using namespace outer;
+    cout << "a string literal"s << endl;
+  }
 
   {
     using old1::old2::print;
