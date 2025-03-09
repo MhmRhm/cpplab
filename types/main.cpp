@@ -10,6 +10,8 @@
 
 #include "../type_inference/typename.h"
 
+// See the following in action: https://godbolt.org/z/7hhTdoY8o
+
 void variableArgFunc([[maybe_unused]] std::initializer_list<int> args) {}
 class VariableArgCtor {
 public:
