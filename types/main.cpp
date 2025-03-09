@@ -4,29 +4,44 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <source_location>
 #include <string>
 #include <typeinfo>
 
 #include "../type_inference/typename.h"
 
+void variableArgFunc([[maybe_unused]] std::initializer_list<int> args) {}
+class VariableArgCtor {
+public:
+  VariableArgCtor(std::initializer_list<int> args) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+  VariableArgCtor(int a, int b, int c) {
+    std::cout << std::source_location::current().function_name() << std::endl;
+  }
+};
+
 int main() {
   using namespace std;
+
+  variableArgFunc({0, 1, 2});
+  VariableArgCtor{0, 1, 2};
 
   // Do not rely on char to be signed or unsigned.
   char a{};
   signed char b{};
   unsigned char c{};
 
+  if (typeid(a) == typeid(b)) {
+    cout << "typeid(char) == typeid(signed char)" << endl;
+  }
+  if (typeid(a) == typeid(c)) {
+    cout << "typeid(char) == typeid(unsigned char)" << endl;
+  }
+
   cout << string{typeid(a).name()} << endl;
   cout << string{typeid(b).name()} << endl;
   cout << string{typeid(c).name()} << endl;
-
-  if (typeid(a) == typeid(b)) {
-    cout << "typeid(a) == typeid(b)" << endl;
-  }
-  if (typeid(a) == typeid(c)) {
-    cout << "typeid(a) == typeid(c)" << endl;
-  }
 
   // Cpp 17
   byte h{0xff};
@@ -63,23 +78,23 @@ int main() {
   };
 
   // Cpp 98
-  [[maybe_unused]] SomeStruct data1{0};
-  [[maybe_unused]] SomeClass data2(0);
+  SomeStruct data1{0};
+  SomeClass data2(0);
 
   // Cpp 11 uniform initialization
-  [[maybe_unused]] SomeStruct data3{0};
-  [[maybe_unused]] SomeClass data4{0};
-  [[maybe_unused]] void *ptr{};
-  [[maybe_unused]] optional<int> opt1{};
-  [[maybe_unused]] array<SomeStruct, 3> zarr{};
-  [[maybe_unused]] array arr{1, 2, 3};
-  [[maybe_unused]] int stack_arr[8]{};
+  SomeStruct data3{0};
+  SomeClass data4{0};
+  void *ptr{};
+  optional<int> opt1{};
+  array<SomeStruct, 3> zarr{};
+  array arr{1, 2, 3};
+  int stack_arr[8]{};
   // Cpp 20
-  [[maybe_unused]] int *fcarr = new int[]{1, 2, 3};
+  int *fcarr = new int[]{1, 2, 3};
   // For uniform initialization in templates, see below
 
   // opt1 contains value, *opt1 is a moved-from value
-  [[maybe_unused]] optional<int> opt2{std::move(opt1)};
+  optional<int> opt2{std::move(opt1)};
 }
 
 template <typename T> class AnotherClass final {
