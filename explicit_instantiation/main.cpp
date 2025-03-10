@@ -74,6 +74,14 @@ template <std::integral T> bool isEqual(const T &lhs, const T &rhs) {
   return lhs == rhs;
 }
 
+// Template Specialization
+template <> class Countable<bool> {
+  virtual void method();
+};
+void Countable<bool>::method() {}
+class Drived : public Countable<bool> {};
+// class Drived : public Countable<int> {};
+
 int main() {
   using namespace std;
   Wrapper<int, vector> wrapper;
