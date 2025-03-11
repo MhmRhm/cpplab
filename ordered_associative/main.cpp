@@ -80,10 +80,24 @@ int main() {
   }
   cout << format("MARK {}", 8) << endl;
   {
+    map<uint16_t, uint16_t> map1{{0, 0}, {1, 1}, {2, 2}};
+    map<uint16_t, uint16_t> map2{{2, 2}, {3, 3}, {4, 4}};
+    map2.merge(map1);
+    for (auto &[k, v] : map1) {
+      cout << format("{{{}, {}}} ", k, v);
+    }
+    cout << "\n";
+    for (auto &[k, v] : map2) {
+      cout << format("{{{}, {}}} ", k, v);
+    }
+    cout << endl;
+  }
+  cout << format("MARK {}", 9) << endl;
+  {
     multimap mdict{pair{1, Outer{}}, pair{2, Outer{}}, pair{2, Outer{}},
                    pair{2, Outer{}}, pair{2, Outer{}}, pair{3, Outer{}}};
 
-    cout << format("MARK {}", 8) << endl;
+    cout << format("MARK {}", 10) << endl;
 
     auto lb{mdict.lower_bound(2)};
     auto ub{mdict.upper_bound(2)};
@@ -92,7 +106,7 @@ int main() {
       cerr << "something is wrong" << endl;
     }
 
-    cout << format("MARK {}", 9) << endl;
+    cout << format("MARK {}", 11) << endl;
 
     if (auto node_handle{mdict.extract(2)}; node_handle) {
       cout << format("{{{}, {}}}", node_handle.key(), node_handle.mapped().id)
