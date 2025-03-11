@@ -2,9 +2,9 @@
 #include <functional>
 #include <iostream>
 #include <locale>
-#include <map>
 #include <random>
 #include <string>
+#include <unordered_map>
 
 int main() {
   using namespace std;
@@ -30,7 +30,7 @@ int main() {
        << endl;
 
   auto generate{bind(dist, eng)};
-  map<int, int> samples{};
+  unordered_map<int, int> samples{};
   for (size_t i = 0; i < 10'000; i++) {
     ++samples[generate()];
   }
