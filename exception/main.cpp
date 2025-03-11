@@ -1,3 +1,4 @@
+#include <chrono>
 #include <exception>
 #include <format>
 #include <iostream>
@@ -72,7 +73,27 @@ void run2() {
     // rest of clean-up
   }
 }
-void run3() { throw std::source_location::current(); }
+
+class ExactException : public std::exception {
+public:
+  ExactException(std::string explanation, std::source_location location =
+                                              std::source_location::current())
+      : m_explanation{std::move(explanation)}, m_location{std::move(location)},
+        m_time{std::chrono::system_clock::now()} {}
+  virtual const std::chrono::system_clock::time_point when() const noexcept {
+    return m_time;
+  }
+  virtual const std::source_location &where() const noexcept {
+    return m_location;
+  }
+  const char *what() const noexcept override { return m_explanation.data(); }
+
+private:
+  std::chrono::system_clock::time_point m_time{};
+  std::source_location m_location{};
+  std::string m_explanation{};
+};
+void run3() { throw ExactException{"run3 threw"}; }
 
 int main() {
   using namespace std;
@@ -92,9 +113,9 @@ int main() {
 
   try {
     run3();
-  } catch (const source_location &e) {
-    cerr << format("{}, {}, line {}", e.file_name(), e.function_name(),
-                   e.line())
+  } catch (const ExactException &e) {
+    cerr << format("{}\t{}:{}: {}", e.when(), e.where().file_name(),
+                   e.where().line(), e.what())
          << endl;
   }
 
