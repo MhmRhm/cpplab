@@ -4,7 +4,7 @@
 #include <thread>
 #include <vector>
 
-std::barrier sync_barrier(4);
+std::barrier sync_barrier{4};
 
 void worker(std::stop_token stopToken, int id) {
   while (!stopToken.stop_requested()) {
@@ -15,7 +15,7 @@ void worker(std::stop_token stopToken, int id) {
 
 int main() {
   std::vector<std::jthread> threads;
-  for (int i = 0; i < 3; ++i) {
+  for (int i{}; i < 3; i += 1) {
     threads.emplace_back(worker, i + 1);
   }
 
